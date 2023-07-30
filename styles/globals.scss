@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700');
+
+@import 'breakpoints.scss';
+@import 'normalize.scss';
+
+
+:root {
+  --color-default: #ff438a;
+  --color-default-hover: #ff6Eea4;
+  --color-secondary: #0075ff;
+  --color-secondary-hover: #3b93fc;
+}
+
+*{
+  box-sizing:border-box;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+.yoursapp {
+  padding: 0;
+  margin: 0;
+  font: 400 18px 'Lato', sans-serif;
+  background-color: #f5f7fd;
+
+  img{
+    max-width: 100%;
+  }
+
+  a{
+    color: var(--color-default);
+  }
+
+  a:hover,
+  a:focus{
+    color: var(--color-default-hover);
+  }
+
+  .container{
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+}

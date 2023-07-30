@@ -1,10 +1,10 @@
-import styles from '@styles/Home.module.scss'
+import styles from '@styles/Model.module.scss'
 
-function Home() {
+function Model() {
   return (
     <>
       <main className='container'>
-        <h1 className={styles.title}>
+        <h1>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
       </main>
@@ -12,4 +12,4 @@ function Home() {
   )
 }
 
-export default Home
+export default Model
