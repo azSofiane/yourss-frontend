@@ -1,12 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700');
 
-@import 'breakpoints.scss';
-@import 'normalize.scss';
+@import '0-init/normalize.scss';
+@import '0-init/breakpoints.scss';
+@import '0-init/container.scss';
+@import '0-init/display.scss';
+@import '0-init/flex.scss';
+@import '0-init/position.scss';
+@import '0-init/spacing.scss';
+@import '0-init/text.scss';
 
 :root {
-  --color-default:#ff438a;
-  --color-default-hover: #ff6Eea;
+  --color-default:#af90eb;
+  --color-default-text: white;
+  --color-default-hover: #7148C1;
+  --color-default-rgb: 175, 144, 235;
+  --color-default-text-rgb: 255, 255, 255;
+  --color-default-hover-rgb: 113, 72, 193;
   --color-secondary: #0075ff;
+  --color-secondary-text: white;
   --color-secondary-hover: #3b93fc;
 }
 
@@ -37,14 +48,6 @@
 
   .w-100{
     width: 100%;
-  }
-
-  .mx-auto{
-    margin-inline: auto;
-  }
-
-  .text-center{
-    text-align: center;
   }
 
   .container{

@@ -1,4 +1,5 @@
 import '@styles/globals.scss'
+import '@styles/antd-reset.scss'
 import 'antd/dist/antd.css'
 import Head from 'next/head'
 

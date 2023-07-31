@@ -1,0 +1,28 @@
+$position: (
+  static: static,
+  relative: relative,
+  absolute: absolute,
+  fixed: fixed,
+  sticky: sticky
+);
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    .position#{$infix}{
+      @each $class, $value in $position {
+        &-#{$class} {
+          position: $value !important;
+        }
+      }
+    }
+
+    .sticky#{$infix}{
+      &-top{
+        position: sticky;
+        top: rem(15);
+      }
+    }
+  }
+}

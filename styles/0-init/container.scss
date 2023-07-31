@@ -1,0 +1,27 @@
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1320px
+) !default;
+
+.container {
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+      $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+      &#{$infix} {
+        width: 100%;
+        margin-inline: auto;
+        padding-inline: rem(15);
+
+        @each $breakpoint, $container-max-width in $container-max-widths {
+          @media (min-width: $container-max-width) {
+            max-width: $container-max-width;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,3 +1,161 @@
 .yoursapp {
-  .ant{}
+  .ant{
+    // les cards
+    &-card{
+      min-height: 100%;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+
+      &-head{
+        border-bottom: 0;
+        background-color: red;
+      }
+
+      &-body{
+        padding: 10px;
+      }
+    }
+
+    // les boutons
+    &-btn{
+      border-radius: 5px;
+
+      &-default{
+        color: var(--color-default-text);
+        border-color: var(--color-default);
+        background-color: var(--color-default);
+        transition: background-color .3s;
+
+        &:hover,
+        &:focus{
+          color: var(--color-default);
+          border-color: var(--color-default);
+          background-color: transparent;
+        }
+      }
+
+      &-secondary{
+        color: var(--color-secondary-text);
+        border-color: var(--color-secondary);
+        background-color: var(--color-secondary);
+        transition: background-color .3s;
+
+        &:hover,
+        &:focus{
+          color: var(--color-secondary);
+          border-color: var(--color-secondary);
+          background-color: transparent;
+        }
+      }
+
+      &-link{
+        color: var(--color-default);
+        border-color: transparent;
+        background-color: transparent;
+        transition: color .3s;
+
+        &:hover,
+        &:focus{
+          color: var(--color-default-hover);
+          border-color: transparent;
+          background-color: transparent;
+        }
+      }
+
+      &-success{
+        color: white;
+        border-color: #28a745;
+        background-color: #28a745;
+        transition: background-color .3s;
+
+        &:hover,
+        &:focus{
+          color: #28a745;
+          border-color: #28a745;
+          background-color: transparent;
+        }
+      }
+    }
+
+    // les champs de formulaire
+    &-input{
+      border-radius: 5px;
+      border-color: #eee;
+      background-color: #eee;
+
+      &:hover,
+      &:focus{
+        border-color: var(--color-default);
+      }
+
+      &::placeholder{
+        color: #666;
+      }
+
+      &-affix-wrapper{
+        border-radius: 5px;
+        border-color: #eee;
+        background-color: #eee;
+
+        &:hover,
+        &:focus{
+          border-color: var(--color-default) !important;
+        }
+      }
+    }
+
+    &-select{
+      &-selection{
+        &-placeholder{
+          opacity: .6;
+          color: #666;
+        }
+      }
+
+      &-selector{
+        border-radius: 5px !important;
+        border-color: #eee !important;
+        background-color: #eee !important;
+      }
+
+      &-item-option{
+        &-active{
+          background-color: rgba(var(--color-default-rgb), .2) !important;
+        }
+
+        &-selected{
+          background-color: rgba(var(--color-default-rgb), .3) !important;
+          cursor: default !important;
+        }
+      }
+    }
+
+    // les modals
+    &-modal{
+      &-mask{
+        backdrop-filter: blur(3px);
+      }
+
+      &-content{
+        padding: 0;
+        border-radius: 10px;
+      }
+
+      &-header{
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+        background-color: transparent;
+      }
+
+      &-title{
+        font-weight: bold;
+        font-size: 20px;
+      }
+
+      &-body{
+        font-size: 18px;
+      }
+    }
+  }
 }
