@@ -1,2 +1,25 @@
-.yoursapp{
+.section {
+  // en mode cascade, le &-connection correspond à => .section-connection
+  &_connection {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(to left, #fdeae7,#fff4ec,#ffdab2);
+  }
+}
+
+.logo{
+  width: 250px;
+}
+
+.wrapCenter{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapConnection{
+  width: 400px;
+  max-width: 100%;
 }

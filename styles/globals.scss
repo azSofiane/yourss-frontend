@@ -4,7 +4,7 @@
 @import 'normalize.scss';
 
 :root {
-  --color-default: #ff438a;
+  --color-default:#ff438a;
   --color-default-hover: #ff6Eea;
   --color-secondary: #0075ff;
   --color-secondary-hover: #3b93fc;
@@ -35,7 +35,20 @@
     color: var(--color-default-hover);
   }
 
+  .w-100{
+    width: 100%;
+  }
+
+  .mx-auto{
+    margin-inline: auto;
+  }
+
+  .text-center{
+    text-align: center;
+  }
+
   .container{
+    width: 100%;
     max-width: 1200px;
     margin-inline: auto;
     padding-inline: 20px;
