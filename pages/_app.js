@@ -12,10 +12,10 @@ import { PersistGate } from 'redux-persist/integration/react'
 import storage from 'redux-persist/lib/storage'
 
 // todo - changer exemple par celui souhaitez
-import exemple from '@reducers/exemple'
+import user from '@reducers/user'
 
-const reducers = combineReducers({ exemple })
-const persistConfig = { key: 'nomdelakeylocalstorage', storage }
+const reducers = combineReducers({ user })
+const persistConfig = { key: 'yours', storage }
 
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
