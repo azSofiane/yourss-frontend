@@ -2,13 +2,22 @@ import styles from '@styles/Home.module.scss';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Card, Input, Select, Button, Space, Modal } from 'antd';
-import { login, logout, oubliemdp,reinitialisationmdp } from '@reducers/user';
+import { login } from '@reducers/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { stockToken } from '../reducers/user';
 
 function Home() {
   const dispatch = useDispatch();
 
   const [modal, setModal] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    nom: '',
+    prenom: '',
+    email: '',
+    mot_de_passe: '',
+    fonction: '',
+  });
 
   const[signInEmail,setSignInEmail] = useState("")
   const[signInMot_de_passe,setSignInMot_de_passe] = useState("")
@@ -26,23 +35,71 @@ function Home() {
     </>
   }
 
+  //creation du compte eleve
+  const handleSignup = () => {
+    const userData = {
+      nom: formData.nom,
+      prenom: formData.prenom,
+      email: formData.email,
+      mot_de_passe: formData.mot_de_passe,
+      fonction: formData.fonction,
+    };
+    fetch('http://localhost:3000/eleves/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Si l'inscription est réussie et que le backend renvoie un token
+        if (data && data.token) {
+        // Stockez le token dans le Redux store
+          dispatch(stockToken(data.token));
+          setFormData({...formData, nom:(''), prenom:(''), email:(''), mot_de_passe:(''), fonction:('')})
+          // setFormData({ ...formData, nom:('')});
+        }
+       
+      })
+      .catch((error) => {
+        // Gérez les erreurs ici
+        console.error('Error:', error);
+      });
+  };
   const creationCompte = () => {
+    const réinitialisationMDP = () => {
+      setModal(false)
+    }
+
     return <>
       <p>Veuillez renseigner vos informations personnelles</p>
 
       <Space direction='vertical' className='w-100' size={12}>
         <Row gutter={[12, 12]}>
-          <Col span={12}><Input placeholder='Nom' size='large' /></Col>
-          <Col span={12}><Input placeholder='Prénom' size='large' /></Col>
-          <Col span={24}><Input placeholder='Email' size='large' /></Col>
-          <Col span={24}><Input.Password placeholder='Mot de passe' size='large' /></Col>
+          <Col span={12}><Input placeholder='Nom' size='large' 
+          value={formData.nom}
+          onChange={(e) => setFormData({ ...formData, nom: e.target.value })}/></Col>
+          <Col span={12}><Input placeholder='Prénom' size='large' 
+          value={formData.prenom}
+          onChange={(e) => setFormData({ ...formData, prenom: e.target.value })}/></Col>
+          <Col span={24}><Input placeholder='Email' size='large' 
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}/></Col>
+
+          <Col span={24}><Input.Password placeholder='Mot de passe' size='large' 
+          value={formData.mot_de_passe}
+          onChange={(e) => setFormData({ ...formData, mot_de_passe: e.target.value })}/></Col>
+
           <Col span={24}>
-            <Select placeholder='Fonction' className='w-100' size='large'>
+            <Select placeholder='Fonction' className='w-100' size='large'
+             value={formData.fonction}
+             onChange={(value) => setFormData({ ...formData, fonction: value })}>
               <Option value="true">Eleve</Option>
               <Option value="false">Professionnel</Option>
             </Select>
           </Col>
-          <Col span={24} className='text-center'><Button type='default' size='large' onClick={() => réinitialisationMDP()}>Valider</Button></Col>
+          <Col span={24} className='text-center'><Button type='default' size='large' onClick={() =>handleSignup() } >Valider</Button></Col>
         </Row>
       </Space>
     </>
@@ -53,9 +110,7 @@ function Home() {
     setModalOpen(data)
   }
 
-  const réinitialisationMDP = () => {
-    setModal(false)
-  }
+
 
   // CONNECTION ENTRE BACK FRONT LOGIN (INPUT MODAL CONNEXION)
   const handleConnection = () => {
@@ -72,11 +127,6 @@ function Home() {
         }
         console.log(data)
       });
-  };
-
-  // CONNECTION ENTRE BACK FRONT LOGIN (BOUTON DECONNEXION "PROFIL")
-  const handleLogout = () => {
-    dispatch(logout());
   };
 
   // todo - revoir la partie reinisialiser mot de passe
@@ -150,7 +200,7 @@ function Home() {
                   </Space>
 
                   <Space direction='vertical' className='w-100 text-center'>
-                    <Button type='success' size='large' onClick={ () => clickModalOpen(false)}>Créer un compte</Button>
+                    <Button type='success' size='large' onClick={() => clickModalOpen(false) }>Créer un compte</Button>
                   </Space>
                 </Space>
               </Card>
@@ -165,4 +215,4 @@ function Home() {
   )
 }
 
-export default Home
+export default Home;
