@@ -14,7 +14,7 @@ import storage from 'redux-persist/lib/storage'
 import user from '@reducers/user'
 
 const reducers = combineReducers({ user })
-const persistConfig = { key: 'yours', storage }
+const persistConfig = { key: 'yoursapp', storage, blacklist: ['_persist'] }
 
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),

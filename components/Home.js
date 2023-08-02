@@ -1,4 +1,5 @@
 import styles from '@styles/Home.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { Row, Col, Card, Input, Select, Button, Space, Modal } from 'antd';
 import { login } from '@reducers/user';
@@ -22,59 +23,31 @@ function Home() {
   const[resetMot_de_passe,setResetMot_de_passe] = useState("")
   const[reinitialisationMot_de_passe,setReinitialisationMot_de_passe] = useState("")
 
-  const mdpOublie = () => {
-    return <>
-      <p>Veuillez renseigner votre adresse e-mail pour réinitialiser votre mot de passe</p>
-
-      <Space direction='vertical' className='w-100 text-center' size={12}>
-        <Input placeholder='Email' size='large' onChange={(e) => setResetMot_de_passe(e.target.value)} value={resetMot_de_passe}/>
-        <Button type='default' size='large' onClick={() => handleMot_de_passeOublie()}>Valider</Button>
-      </Space>
-    </>
-  }
-
-  //creation du compte eleve
-  const handleSignup = () => {
-    const userData = {
-      nom: formData.nom,
-      prenom: formData.prenom,
-      email: formData.email,
-      mot_de_passe: formData.mot_de_passe,
-      fonction: formData.fonction,
-    };
-
-    let signupUrl;
-
-    // Vérifiez la valeur de "fonction" et définission de l'URL en conséquence
-    if (formData.fonction === 'true') {
-      signupUrl = 'http://localhost:3000/eleves/signup';
-    } else {
-      signupUrl = 'http://localhost:3000/professionnels/signup';
-    }
-
-    fetch(signupUrl, {
+  // fonction connexion utilisateur
+  const handleConnection = () => {
+    fetch('http://localhost:3000/connexion/', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Si l'inscription est réussie et que le backend renvoie un token
-        if (data && data.token) {
-        // Stockez le token dans le Redux store
-          dispatch(stockToken(data.token));
-          setFormData({...formData, nom:(''), prenom:(''), email:(''), mot_de_passe:(''), fonction:('')})
-          // setFormData({ ...formData, nom:('')});
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: signInEmail, mot_de_passe: signInMot_de_passe }),
+    }).then(response => response.json())
+      .then(data => {
+        // Si la connnexion est réussie et que le backend renvoie un token
+        if (data.result) {
+          // Stockez le token dans le Redux store
+          dispatch(login({ token: data.token, fonction: data.fonction }));
+          setSignInEmail('');
+          setSignInMot_de_passe('');
         }
-       
-      })
-      .catch((error) => {
-        // Gérez les erreurs ici
-        console.error('Error:', error);
       });
   };
+
+  // fonction ouvrir modal
+  const clickModalOpen = (data) => {
+    setModal(true)
+    setModalOpen(data)
+  }
+
+  // modal - creation de compte utilisateur
   const creationCompte = () => {
     const réinitialisationMDP = () => {
       setModal(false)
@@ -85,17 +58,17 @@ function Home() {
 
       <Space direction='vertical' className='w-100' size={12}>
         <Row gutter={[12, 12]}>
-          <Col span={12}><Input placeholder='Nom' size='large' 
+          <Col span={12}><Input placeholder='Nom' size='large'
           value={formData.nom}
           onChange={(e) => setFormData({ ...formData, nom: e.target.value })}/></Col>
-          <Col span={12}><Input placeholder='Prénom' size='large' 
+          <Col span={12}><Input placeholder='Prénom' size='large'
           value={formData.prenom}
           onChange={(e) => setFormData({ ...formData, prenom: e.target.value })}/></Col>
-          <Col span={24}><Input placeholder='Email' size='large' 
+          <Col span={24}><Input placeholder='Email' size='large'
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}/></Col>
 
-          <Col span={24}><Input.Password placeholder='Mot de passe' size='large' 
+          <Col span={24}><Input.Password placeholder='Mot de passe' size='large'
           value={formData.mot_de_passe}
           onChange={(e) => setFormData({ ...formData, mot_de_passe: e.target.value })}/></Col>
 
@@ -112,33 +85,46 @@ function Home() {
       </Space>
     </>
   }
-  
-  const clickModalOpen = (data) => {
-    setModal(true)
-    setModalOpen(data)
-  }
 
+  // fonction creation d'un compte utilisateur
+  const handleSignup = () => {
+    const userData = {
+      nom: formData.nom,
+      prenom: formData.prenom,
+      email: formData.email,
+      mot_de_passe: formData.mot_de_passe,
+      fonction: formData.fonction,
+    };
 
-
-  // CONNECTION ENTRE BACK FRONT LOGIN (INPUT MODAL CONNEXION)
-  const handleConnection = () => {
-    fetch('http://localhost:3000/professionnels/signin', {
+    fetch('http://localhost:3000/inscription', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: signInEmail, mot_de_passe: signInMot_de_passe }),
-    }).then(response => response.json())
-      .then(data => {
-        if (data.result) {
-          dispatch(login({token: data.token})); // ce qui va être stocké dans le localstorage
-          setSignInEmail('');
-          setSignInMot_de_passe('');
-        }
-        console.log(data)
+      body: JSON.stringify(userData)
+    }).then((response) => response.json())
+      .then((data) => {
+        // Si l'inscription est réussie et que le backend renvoie un token
+        if (data && data.token) {
+          // Stockez le token dans le Redux store
+          dispatch(login({ token: data.token, fonction: data.fonction }));
+          setFormData({...formData, nom:(''), prenom:(''), email:(''), mot_de_passe:(''), fonction:('')});
+        };
       });
   };
 
+  // modal - mot de passe oublié
+  const mdpOublie = () => {
+    return <>
+      <p>Veuillez renseigner votre adresse e-mail pour réinitialiser votre mot de passe</p>
+
+      <Space direction='vertical' className='w-100 text-center' size={12}>
+        <Input placeholder='Email' size='large' onChange={(e) => setResetMot_de_passe(e.target.value)} value={resetMot_de_passe}/>
+        <Button type='default' size='large' onClick={() => handleMot_de_passeOublie()}>Valider</Button>
+      </Space>
+    </>
+  }
+
   // todo - revoir la partie reinisialiser mot de passe
-  // CONNECTION ENTRE BACK FRONT (BOUTON " DEMANDE DE REINITIALISATION DE MDP")
+  // fonction demande de reinisialisation de mot de passe
   const handleMot_de_passeOublie = () => {
     fetch('http://localhost:3000/reinisialisermdp/forgot-password', {
       method: 'POST',
@@ -165,26 +151,10 @@ function Home() {
         //       return;
         //     }
         //     setResetMot_de_passe('')
-           
+
         //   });
       });
   };
-
-  // CONNECTION ENTRE BACK FRONT ("REINITIALISATION DE MDP")
-  // const handleReinitialisationMdp = () => {
-  //   fetch('http://localhost:3000/professionnels/reset-password', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ email: ReinitialisationMot_de_passe}),
-  //   }).then(response => response.json())
-  //     .then(data => {
-  //       if (data.result) {
-  //         dispatch(reinitialisationmdp({ email: ReinitialisationMot_de_passe, token: data.token }));
-  //         setReinitialisationMot_de_passe('')
-  //       }
-  //       console.log(data)
-  //     });
-  // };
 
   return (
     <>
@@ -201,7 +171,7 @@ function Home() {
                 <Space size={24} direction='vertical' className='w-100'>
                   <Space direction='vertical' className='w-100 text-center'>
                     <Input placeholder='Email' size='large' onChange={(e) => setSignInEmail(e.target.value)} value={signInEmail}/>
-                    <Input placeholder='Mot de passe' size='large' onChange={(e) => setSignInMot_de_passe(e.target.value)} value={signInMot_de_passe}/>
+                    <Input.Password placeholder='Mot de passe' size='large' onChange={(e) => setSignInMot_de_passe(e.target.value)} value={signInMot_de_passe}/>
 
                     <Button type='default' size='large' className='w-100' onClick={() => handleConnection()}>Se connecter</Button>
                     <Button type='link' onClick={ () => clickModalOpen(true)}>Mot de passe oublié ?</Button>
