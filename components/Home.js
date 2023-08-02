@@ -1,6 +1,5 @@
 import styles from '@styles/Home.module.scss';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Card, Input, Select, Button, Space, Modal } from 'antd';
 import { login } from '@reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,7 +43,17 @@ function Home() {
       mot_de_passe: formData.mot_de_passe,
       fonction: formData.fonction,
     };
-    fetch('http://localhost:3000/eleves/signup', {
+
+    let signupUrl;
+
+    // Vérifiez la valeur de "fonction" et définission de l'URL en conséquence
+    if (formData.fonction === 'true') {
+      signupUrl = 'http://localhost:3000/eleves/signup';
+    } else {
+      signupUrl = 'http://localhost:3000/professionnels/signup';
+    }
+
+    fetch(signupUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
