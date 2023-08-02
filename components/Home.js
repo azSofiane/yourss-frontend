@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Card, Input, Select, Button, Space, Modal } from 'antd';
 import { login } from '@reducers/user';
-import { useDispatch, useSelector } from 'react-redux';
 import { stockToken } from '../reducers/user';
 
 function Home() {
