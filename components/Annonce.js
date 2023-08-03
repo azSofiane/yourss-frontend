@@ -19,7 +19,7 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 function Annonce() {
-  const test = true;
+  const test = false;
 
   return (
     <>
@@ -27,15 +27,15 @@ function Annonce() {
         <div className="container">
           <Space direction="vertical" className="w-100" size={12}>
             <Row gutter={[12, 12]}>
+              {/* Section 1 élève non editable */}
               <Col span={24}>
                 <Card>
                   <Row gutter={[12, 12]}>
                     <Col span={24} md={4}>
-                      
+                    <Avatar size={100} src={<img src={"https://cdn.britannica.com/01/236601-050-2CFDF711/Julia-Roberts-2019.jpg"} alt="Photo de profile"/>}/>
                     </Col>
 
                     <Col span={24} md={10}>
-                      {/* mettre du text */}
                       <div>Poste</div>
                       <div>Entreprise</div>
                       <div>Localisation</div>
@@ -50,8 +50,8 @@ function Annonce() {
                 </Card>
               </Col>
 
+              {/* Section 2 eleve non éditable*/}
               <Col span={24}>
-                {/* boutton eleve  et text*/}
                 <div className="d-flex justify-content-end align-items-center">
                   <span>Postulé</span>
                   <Button type='default' size='large' className='mx-2' onClick={() => fonctionachanger()}>Postuler</Button>
@@ -59,7 +59,8 @@ function Annonce() {
                 </div>
               </Col>
 
-              {/* 3 boutton pour le professionnel editer archiver et sauvgarder */}
+              {/* Section 1 professionnel non éditable 
+              boutton editer archiver et sauvgarder */}
               <Col span={24}>
                 <div className="d-flex justify-content-end align-items-center">
                   <Button type='default' size='large' className='mx-2' onClick={() => fonctionachanger()}>Editer</Button>
@@ -67,7 +68,7 @@ function Annonce() {
                   <Button type='default' size='large' className='mx-2' onClick={() => fonctionachanger()}>Sauvegarder</Button>
                 </div>
               </Col>
-              {/* remplire l'annonce */}
+              {/* Section page annonce champs éditable*/}
               <Col span={24}>
                 <Card>
                   <Row gutter={[12, 12]}>
@@ -75,10 +76,8 @@ function Annonce() {
                     <Col span={24} size="large"  ><RangePicker size="large"/></Col>
                     <Col span={24}>{ test ? <Input placeholder="Poste" size="large" /> : 'Localisation' }</Col>
                     <Col span={24}>{ test ? <Input placeholder="Entreprise" size="large" /> : 'Profession' }</Col>
-                    <Col span={24}> <TextArea rows={12} placeholder="Description du stage"/></Col>
+                    <Col span={24}> {test ? <TextArea rows={12} placeholder="Description du stage"/>: "Description du stage" } </Col>
                     <Col span={24}><Button type='default' size='large' className='mx-2' onClick={() => fonctionachanger()}>Valider</Button></Col>
-                    <Col span={24}></Col>
-                    <Col span={24}></Col>
                   </Row>
                 </Card>
               </Col>
