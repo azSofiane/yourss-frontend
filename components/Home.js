@@ -1,22 +1,18 @@
 import styles from '@styles/Home.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { useRouter } from 'next/router'
 import { Row, Col, Card, Input, Select, Button, Space, Modal } from 'antd';
 import { login } from '@reducers/user';
 import { stockToken } from '../reducers/user';
 
 function Home() {
   const dispatch = useDispatch();
+  const router = useRouter()
 
   const [modal, setModal] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    nom: '',
-    prenom: '',
-    email: '',
-    mot_de_passe: '',
-    fonction: '',
-  });
+  const [formData, setFormData] = useState({ nom: '', prenom: '', email: '', mot_de_passe: '', fonction: null });
 
   const[signInEmail,setSignInEmail] = useState("")
   const[signInMot_de_passe,setSignInMot_de_passe] = useState("")
@@ -133,15 +129,13 @@ function Home() {
       body: JSON.stringify(requestData),
       }).then(response => response.json())
       .then(data => {
-        console.log(data)
-
         if (!data.result) {
           // todo - réaliser les effets de refus (message sur le frontend)
           return;
         }
       });
   };
-   
+
   // todo - faire la partie changement de mot de passe
     const réinitialisationMDP = () => {
       const requestData = {

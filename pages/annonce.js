@@ -4,4 +4,4 @@ function AnnoncePage() {
   return <Annonce />
 }
 
-export default AnnoncePage
+export default AnnoncePage;
