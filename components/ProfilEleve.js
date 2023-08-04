@@ -1,84 +1,184 @@
-import { Row, Col, Card, Input, Select, Button, Space, Modal,DatePicker,Avatar } from 'antd';
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Row, Col, Card, Input, Button, Space, DatePicker, Avatar } from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faUserGraduate, faSchool } from '@fortawesome/free-solid-svg-icons';
+
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faStar} from '@fortawesome/free-solid-svg-icons';
+
+// todo - revoir toute les dates + mots cles
 
 function ProfilEleve() {
-  
-  const modifier = true;
+  const user = useSelector((state) => state.user);
+  const [isToken, setIsToken] = useState(false);
+  const [editProfil, setIsEditProfil] = useState(false);
+  const [formData, setFormData] = useState({ nom: '', prenom: '', photos: '', date_de_naissance: '', etablissement: '', presentation: '', motivation: '', ville: '', code_postal: '', disponible: null, date_de_debut: null, date_de_fin: null, ma_recherche_de_stage: '', mot_cle: [] });
+  const [formDataPreview, setFormDataPreview] = useState({});
 
-    return (
-        <>
-          <main>
-            <div className='container'>
-              <Space direction='vertical' className='w-100' size={12}>
-                  <Row gutter={[12, 12]}>
-                   
-                    {/* condition pour  pour changement de page : avec modification du nom du button , champ de saisie input vers => texte visible en dur  */}
-                    <Col span={24} className='text-end'>
-                      <Button type='default' size='default'>{ modifier ? 'Sauvegarder' : 'Editer' }</Button>
-                      <FontAwesomeIcon icon={faStar} style={{color: "#ead02a",}}/>
-                    </Col>
+  useEffect(() => {
+    if (user.token) {
+      fetch('http://localhost:3000/eleves/' + user.token)
+        .then(response => response.json())
+        .then(data => {
+          if(data.result){
+            setIsToken(true);
 
-                    <Col span={24} >
-                      <Card>
-                        <Row gutter={[12, 12]}>
-                           {modifier ?<Avatar src={<img src={"https://media.threatpost.com/wp-content/uploads/sites/103/2019/09/26105755/fish-1.jpg"} alt="avatar" />} size={100}/> : <Avatar src={<img src={""} alt="avatar"/>}/>}
-                          <Col span={24} md={4}></Col>
+            const { nom, prenom, photos, date_de_naissance, etablissement, presentation, motivation, ville, code_postal, disponible, date_de_debut, date_de_fin, ma_recherche_de_stage, mot_cle } = data.data;
 
-                          {/* condition pour changement de page de: champ de saisie "identité" input vers => texte visible en dur  */}
-                          <Col span={24} md={9}>
-                            { modifier ? <Input placeholder='Nom' size='large'/> : 'Gaudelet'}
-                            { modifier ? <Input placeholder='Prénom' size='large'/> : 'Edwin'}
-                            { modifier ? <Input placeholder='Etablissement' size='large'/> : 'Collège Jean Monnet'}
-                            { modifier ? <Input placeholder='Classe' size='large'/> : '3ème'}
-                          </Col>
-                        
-                         {/* condition pour changement de page de: champ de saisie "date de stage" calendrier vers => texte visible en dur  */}
-                          <Col span={24} md={8}>
-                            <h2>Date de stage</h2>
-                            { modifier ? <RangePicker /> : 'date de début :' +'   '+ 'date de fin :' }
-                          </Col>
-                        </Row>
-                        
-                      </Card>
-                    </Col>
+            setFormData({ nom, prenom, photos, date_de_naissance, etablissement, presentation, motivation, ville, code_postal, disponible, date_de_debut, date_de_fin, ma_recherche_de_stage, mot_cle });
+          };
+        });
+    };
+  }, [user.token]);
 
-                     {/* CARD POUR LA PRESENTATION DE L ELEVE */}
-                    <Col span ={24} md={12}>
-                      <Card>
-                        <h2>Présentation</h2>
-                              {/* condition pour changement de page de: champ de saisie "PRESENTATION" input vers => texte visible en dur  */}
-                              { modifier ? <TextArea rows={6} placeholder=' Bonjour, je suis très intérressé par le domaine du ...' size='large'/> : 'Je m/appelle Edwin, je suis très interressé par ...'}
-                      </Card>
-                    </Col>
+  useEffect(() => {
+    setFormDataPreview({ ...formData });
+  }, [formData]);
 
-                      {/* CARD POUR LA MOTIVATION DE L ELEVE */}
-                    <Col span ={24} md={12}>
-                      <Card>
-                        <h2>Motivation</h2>
-                              {/* condition pour changement de page de: champ de saisie "MOTIVATION" input vers => texte visible en dur  */}    
-                              { modifier ? <TextArea rows={6} placeholder='Je suis particulièrement intérressé par votre ...' size='large'/> : 'J/adore le sport '}
-                      </Card>
-                    </Col>
-                    {/* CARD POUR LA MOTIVATION DE L ELEVE */}
-                    <Col span ={24}>
-                      <Card>
-                        <h2>Mon Stage de rêve</h2>
-                              {/* condition pour changement de page de: champ de saisie "MON STAGE DE REVE" input vers => texte visible en dur  */}
-                              { modifier ? <TextArea rows={6}  placeholder='Bonjour, je recherche un stage..' size='large'/> : 'College Edwin de Paris'}
-                      </Card>
-                    </Col>
+  const editProfilClick = () => {
+    setIsEditProfil(true);
+  };
 
-                  </Row>
-                </Space>
-              </div>
-            </main>
-          </>
-        )
+  const saveProfilClick = () => {
+    if(!user.token) return;
+
+    setFormData({ ...formDataPreview });
+
+		fetch('http://localhost:3000/eleves/edit/' + user.token, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...formDataPreview })
+    }).then(response => response.json())
+    .then(data => {
+      if (data.result) {
+        console.log(data)
       }
- 
+    });
+
+    setIsEditProfil(false);
+  };
+
+  const cancelProfilClick = () => {
+    setIsEditProfil(false);
+    setFormData({ ...formData });
+  };
+
+  return (
+    <>
+      <main>
+        <div className='container'>
+          <Space direction='vertical' className='w-100' size={12}>
+            <Row gutter={[12, 12]}>
+              <Col span={24} className='text-end'>
+                {
+                  user.fonction === 'true' ?
+                    <>
+                      { editProfil && <Button type='danger' size='large' className='mx-2' onClick={() => cancelProfilClick()}>Annuler</Button> }
+
+                      <Button type='default' size='large' onClick={() => {editProfil ? saveProfilClick() : editProfilClick()}}>{ editProfil ? 'Sauvegarder' : 'Editer' }</Button>
+                    </>
+                  :
+                    <>
+                      <Button type='default' size='large' className='me-2'>Contacter</Button>
+                      <FontAwesomeIcon icon={ faStar } />
+                    </>
+                }
+              </Col>
+
+              <Col span={24}>
+                <Card>
+                  <Row gutter={[12, 12]}>
+                    <Col span={24} md={4} className='d-flex align-items-center justify-content-center'>
+                      <Avatar src={<img src={"https://www.photo-identite-bordeaux.fr/wp-content/uploads/2020/10/Enfant-04-2.jpg"} alt="avatar" />} size={100} />
+                    </Col>
+
+                    <Col span={24} md={10} className={ !editProfil && 'd-flex align-items-center'}>
+                      <div>
+                        <div className='my-1'>
+                          {
+                            editProfil ?
+                              <Input placeholder='Nom' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, nom: e.target.value })} value={formDataPreview.nom} />
+                            :
+                              <><FontAwesomeIcon icon={ faUserGraduate } className='me-1' /> <span className='fw-bold'>{ formData.nom }</span> <span>{ formData.prenom }</span></>
+                          }
+                        </div>
+
+                        <div className='my-1'>
+                          {
+                            editProfil && <Input placeholder='Prénom' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, prenom: e.target.value })} value={formDataPreview.prenom} />
+                          }
+                        </div>
+
+                        <div className='my-1'>
+                          {
+                            editProfil ?
+                              <Input placeholder='Etablissement' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, etablissement: e.target.value })} value={formDataPreview.etablissement} />
+                            :
+                              <>{ formData.etablissement && <><FontAwesomeIcon icon={ faSchool } className='me-1' /> <span className='fw-bold'>{ formData.etablissement }</span></> }</>
+                          }
+                        </div>
+                      </div>
+                    </Col>
+
+                    <Col span={24} md={10} className='text-center'>
+                      <h2>Date de stage</h2>
+
+                      { editProfil ? <RangePicker size='large' /> : formData.date_de_debut + ' ' + formData.date_de_fin }
+                    </Col>
+                  </Row>
+                </Card>
+              </Col>
+
+              <Col span={24} md={12}>
+                <Card>
+                  <h2>Présentation</h2>
+
+                  {
+                    editProfil ?
+                      // todo - format n'est pas bon les saut de ligne (<p> et <br/>)
+                      <TextArea rows={8} placeholder='Bonjour, je suis très intérressé par le domaine du ...' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, presentation: e.target.value })} value={formDataPreview.presentation} />
+                    :
+                      formData.presentation
+                  }
+                </Card>
+              </Col>
+
+              <Col span={24} md={12}>
+                <Card>
+                  <h2>Motivation</h2>
+
+                  {
+                    editProfil ?
+                      // todo - format n'est pas bon les saut de ligne (<p> et <br/>)
+                      <TextArea rows={8} placeholder='Je suis particulièrement intérressé par votre ...' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, motivation: e.target.value })} value={formDataPreview.motivation} />
+                    :
+                      formData.motivation
+                  }
+                </Card>
+              </Col>
+
+              <Col span={24}>
+                <Card>
+                  <h2>Mon Stage de rêve</h2>
+
+                  {
+                    // todo - ajout de mot_cle // liste de mots
+                    editProfil ?
+                      // todo - format n'est pas bon les saut de ligne (<p> et <br/>)
+                      <TextArea rows={8} placeholder='Bonjour, je recherche un stage..' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, ma_recherche_de_stage: e.target.value })} value={formDataPreview.ma_recherche_de_stage} />
+                    :
+                      formData.ma_recherche_de_stage
+                  }
+                </Card>
+              </Col>
+            </Row>
+          </Space>
+        </div>
+      </main>
+    </>
+  )
+}
 
 export default ProfilEleve;
