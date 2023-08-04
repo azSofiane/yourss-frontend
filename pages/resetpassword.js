@@ -1,12 +1,11 @@
 import styles from '@styles/Home.module.scss';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Row, Col, Card, Input, Button, Space } from 'antd';
 
 function ResetPassword() {
   const [motDePasse, setMotDePasse] = useState('');
   const [message, setMessage] = useState('');
-  // const [email, setEmail] = useState('');
 
 
   const router = useRouter();
@@ -47,9 +46,9 @@ function ResetPassword() {
         <section className={styles.section_connection}>
           <div className='container'>
             <Row gutter={[16, 16]}>
-            <Col span={24} md={12} className={styles.wrapCenter}>
+              <Col span={24} md={12} className={styles.wrapCenter}>
               <img src='img/logo.svg' alt='logo yours' className={styles.logo} />
-            </Col>
+              </Col>
               <Col span={24} md={12} >
                 <h1>Réinitialisation du mot de passe</h1>
                 <Card>
