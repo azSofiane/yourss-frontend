@@ -1,0 +1,112 @@
+import React from "react";
+import { Avatar, Button, Card, Col, Row, Space } from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faStar} from '@fortawesome/free-solid-svg-icons';
+
+function Favoris() {
+
+  return(
+    <>
+      <div className="container">
+        <Space direction="vertical" className="w-100" size={12}>
+          <Col span={24}>
+            <Col span={24}>Favoris</Col>
+
+            {/* Card favoris des annonces coté élève */}
+            <Card>
+              <Row gutter={[12, 12]}>
+                <Col span={24} md={4}>
+                  <div>
+                    <Avatar alt='Avatar' size={100}>
+                    </Avatar>
+                  </div>
+                </Col>
+
+                <Col span={24} md={10}>
+                  <div>
+                    Commentateur TV
+                  </div>
+                  <div>
+                    Canal+
+                  </div>
+                  <div>
+                    Paris
+                  </div>
+                </Col>
+
+                <Col span={24} md={10}>
+                  <div>
+                    du 10/09/2023 au 14/09/2023
+                  </div>
+                  <div>
+                    <Button>
+                      Voir l'annonce
+                    </Button>
+                  </div>
+                  <div>
+                    <FontAwesomeIcon icon={faStar} style={{color: "#ead02a"}}/>
+                  </div>
+                </Col>
+
+                <Col span={24}>
+                  <div>
+                  Description Rapide: lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem              
+                  </div>
+                </Col>
+
+              </Row>
+            </Card>
+
+             {/* Card profil mes élèves favoris coté pro */}
+             <Card>
+              <Row gutter={[12, 12]}>
+                <Col span={24} md={4}>
+                  <div>
+                    <Avatar alt='Avatar' size={100}>
+                    </Avatar>
+                  </div>
+                </Col>
+
+                <Col span={24} md={10}>
+                  <div>
+                    Pierre
+                  </div>
+                  <div>
+                    Menes
+                  </div>
+                  <div>
+                    BigP
+                  </div>
+                </Col>
+
+                <Col span={24} md={10}>
+                  <div>
+                    du 10/09/2023 au 14/09/2023
+                  </div>
+                  <div>
+                    <Button>
+                      Voir le profil
+                    </Button>
+                  </div>
+                  <div>
+                    <FontAwesomeIcon icon={faStar} style={{color: "#ead02a"}}></FontAwesomeIcon>
+                  </div>
+                </Col>
+
+                <Col span={24}>
+                  <div>
+                  Description Rapide: lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem              
+                  </div>
+                </Col>
+
+              </Row>
+            </Card>
+
+          </Col>
+        </Space>
+      </div>
+    </>
+  )
+}
+
+export default Favoris;
