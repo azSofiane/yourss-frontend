@@ -33,17 +33,17 @@ function Annonce() {
   const[creationCodePostal,setCreationCodePostal] = useState("");
   const[creationVille,setCreationVille] = useState("");
   const[creationDatePublication,setCreationDatePublication] = useState("");
+  const [archiver, setArchiver] = useState(false);
   const[creationDateCreation, setCreationDateCreation] = useState(new Date()); // si la date a changé, permet de garder en mémoire.
 
   // fonction connexion utilisateur
   // Champs obligatoire : ['titre', 'date_de_creation', 'code_postal', 'ville', 'description', 'token' ]
   const handleCreationAnnonce = () => {
-    console.log('01');
     fetch('http://localhost:3000/annonces/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       // todo - retraiter les dates : date_de_debut:creationDateDebut, date_de_fin: creationDateFin, date_de_publication: creationDatePublication, 
-      body: JSON.stringify({ titre:creationTitre, ville:creationVille,code_postal:creationCodePostal, adresse:creationAdresse, profession: creationPoste, entreprise:creationEntreprise,description:creationDescription }),
+      body: JSON.stringify({ archive:archiver, ville:creationVille,code_postal:creationCodePostal, adresse:creationAdresse, profession: creationPoste, entreprise:creationEntreprise,description:creationDescription }),
     }).then(response => response.json())
       .then(data => {
         // console.log(handleCreationAnnonce)
@@ -65,6 +65,19 @@ function Annonce() {
       });
   };
 
+  const HandleArchiverAnnonce = () => {
+    fetch('http://localhost:3000/annonces/archive', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ archive:archiver }),
+    }).then(response => response.json())
+      .then(data => {
+        console.log(data);
+        // Si la connnexion est réussie et que le backend renvoie un token
+        // if (data.result)
+      });
+  }
+  
   
 
   return (
@@ -110,7 +123,7 @@ function Annonce() {
               <Col span={24}>
                 <div className="d-flex justify-content-end align-items-center">
                   <Button type='default' size='large' className='mx-2' onClick={() => fonctionachanger()}>Editer</Button>
-                  <Button type='default' size='large' className='mx-2' onClick={() => fonctionachanger()}>Archiver</Button>
+                  <Button type='default' size='large' className='mx-2' onClick={() => HandleArchiverAnnonce()}>Archiver</Button>
                   <Button type='default' size='large' className='mx-2' onClick={() => fonctionachanger()}>Sauvegarder</Button>
                 </div>
               </Col>
@@ -120,11 +133,11 @@ function Annonce() {
                   <Row gutter={[12, 12]}>
                     <Col span={24}>{ test ? <Input placeholder="Titre" size="large" onChange={(e) => setCreationTitre(e.target.value)} value={creationTitre}/> : 'Titre' }</Col>
 
-                    <Col span={24}>{ test ? <DatePicker defaultValue={dayjs('01/01/2015', dateFormatList[0])} format={dateFormatList} size="large" placeholder="Date Publication" onChange={(date) => setCreationDateDebut(date)} value={creationDatePublication}/>: 'Date de publication' }</Col>
+                    <Col span={24}>{ test ? <DatePicker defaultValue={dayjs('01/01/2015', dateFormatList[0])} format={dateFormatList} size="large" placeholder="Date Publication" onChange={(date) => setCreationDatePublication(date)} value={creationDatePublication}/>: 'Date de publication' }</Col>
 
                     <Col span={24}> {test ? <DatePicker defaultValue={dayjs('01/01/2015', dateFormatList[0])} format={dateFormatList} size="large" placeholder="Date Début" onChange={(date) => setCreationDateDebut(date)} value={creationDateDebut}/> : 'Date de début'}</Col>
                       
-                    <Col span={24}> {test ? <DatePicker defaultValue={dayjs('01/01/2015', dateFormatList[0])} format={dateFormatList} size="large" placeholder="Date Fin" onChange={(date) => setCreationDateDebut(date)} value={creationDateFin} /> : 'Date de fin'}</Col>
+                    <Col span={24}> {test ? <DatePicker defaultValue={dayjs('01/01/2015', dateFormatList[0])} format={dateFormatList} size="large" placeholder="Date Fin" onChange={(date) => setCreationDateFin(date)} value={creationDateFin} /> : 'Date de fin'}</Col>
 
                     <Col span={24}>{ test ? <Input placeholder="Poste" size="large" onChange={(e) => setCreationPoste(e.target.value)} value={creationPoste}/> : 'Profession' }</Col>
 
