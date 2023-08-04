@@ -117,11 +117,11 @@ function Annonce() {
                   <Row gutter={[12, 12]}>
                     <Col span={24}>{ test ? <Input placeholder="Titre" size="large" onChange={(e) => setCreationTitre(e.target.value)} value={creationTitre}/> : 'Titre' }</Col>
 
-                    <Col span={24}>{ test ? <DatePicker defaultValue={dayjs('01/01/2015', dateFormatList[0])} format={dateFormatList} size="large" placeholder="Date Publication" onChange={(date, dateString) => setCreationDateDebut(dateString)} value={creationDatePublication}/>: 'Date de publication' }</Col>
+                    <Col span={24}>{ test ? <DatePicker defaultValue={dayjs('01/01/2015', dateFormatList[0])} format={dateFormatList} size="large" placeholder="Date Publication" onChange={(date) => setCreationDateDebut(date)} value={creationDatePublication}/>: 'Date de publication' }</Col>
 
-                    <Col span={24}> {test ? <DatePicker defaultValue={dayjs('01/01/2015', dateFormatList[0])} format={dateFormatList} size="large" placeholder="Date Début" onChange={(date, dateString) => setCreationDateDebut(dateString)} value={creationDateDebut}/> : 'Date de début'}</Col>
+                    <Col span={24}> {test ? <DatePicker defaultValue={dayjs('01/01/2015', dateFormatList[0])} format={dateFormatList} size="large" placeholder="Date Début" onChange={(date) => setCreationDateDebut(date)} value={creationDateDebut}/> : 'Date de début'}</Col>
                       
-                    <Col span={24}> {test ? <DatePicker defaultValue={dayjs('01/01/2015', dateFormatList[0])} format={dateFormatList} size="large" placeholder="Date Fin" onChange={(date, dateString) => setCreationDateDebut(dateString)} value={creationDateFin} /> : 'Date de fin'}</Col>
+                    <Col span={24}> {test ? <DatePicker defaultValue={dayjs('01/01/2015', dateFormatList[0])} format={dateFormatList} size="large" placeholder="Date Fin" onChange={(date) => setCreationDateDebut(date)} value={creationDateFin} /> : 'Date de fin'}</Col>
 
 
                     <Col span={24}>{ test ? <Input placeholder="Poste" size="large" onChange={(e) => setCreationPoste(e.target.value)} value={creationPoste}/> : 'Profession' }</Col>
