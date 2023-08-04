@@ -19,6 +19,7 @@ function Home() {
   const[resetMot_de_passe,setResetMot_de_passe] = useState("")
   const[reinitialisationMot_de_passe,setReinitialisationMot_de_passe] = useState("")
 
+
   // fonction connexion utilisateur
   const handleConnection = () => {
     fetch('http://localhost:3000/connexion/', {
@@ -45,9 +46,6 @@ function Home() {
 
   // modal - creation de compte utilisateur
   const creationCompte = () => {
-    const réinitialisationMDP = () => {
-      setModal(false)
-    }
 
     return <>
       <p>Veuillez renseigner vos informations personnelles</p>
@@ -105,7 +103,7 @@ function Home() {
           setFormData({...formData, nom:(''), prenom:(''), email:(''), mot_de_passe:(''), fonction:('')});
         };
       });
-  };
+  }
 
   // modal - mot de passe oublié
   const mdpOublie = () => {
@@ -122,32 +120,43 @@ function Home() {
   // todo - revoir la partie reinisialiser mot de passe
   // fonction demande de reinisialisation de mot de passe
   const handleMot_de_passeOublie = () => {
+    const requestData = {
+      email: resetMot_de_passe,
+    };
     fetch('http://localhost:3000/reinisialisermdp/forgot-password', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: resetMot_de_passe}),
-    }).then(response => response.json())
+      body: JSON.stringify(requestData),
+      }).then(response => response.json())
       .then(data => {
         if (!data.result) {
           // todo - réaliser les effets de refus (message sur le frontend)
           return;
         }
-
-        // todo - faire la partie changement de mot de passe
-        // fetch('http://localhost:3000/professionnels/reset-password', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ token: data.token}),
-        // }).then(response => response.json())
-        //   .then(data => {
-        //      if (!data.result) {
-        //       return;
-        //     }
-        //     setResetMot_de_passe('')
-
-        //   });
       });
   };
+
+  // todo - faire la partie changement de mot de passe
+    const réinitialisationMDP = () => {
+      const requestData = {
+        email: email,
+        resetToken: resetToken,
+        mot_de_passe: mot_de_passe,
+      }
+
+    fetch('http://localhost:3000/reinisialisermdp/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestData),
+      }).then(response => response.json())
+        .then(data => {
+             console.log('01', data)
+          if (!data.result) {
+             return;
+          }
+          // setResetMot_de_passe('')
+        });
+    }
 
   return (
     <>
@@ -184,6 +193,6 @@ function Home() {
       <Modal footer={null} centered open={modal} onCancel={() => setModal(false)} wrapClassName={styles.modal} title={modalOpen ? 'Réinitialisation mot de passe' : 'Créer un compte'}>{ modalOpen ? mdpOublie() : creationCompte() }</Modal>
     </>
   )
-}
+  }
 
 export default Home;
