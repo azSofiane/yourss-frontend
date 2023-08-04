@@ -9,22 +9,21 @@ import {
   Select,
   Button,
   Space,
-  Modal,
-  
+  Modal, 
 } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
 import dayjs from "dayjs";
 
-const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 function Annonce() {
   const test = true;
+  
+  const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY', 'DD-MM-YYYY', 'DD-MM-YY'];
 
   const[creationTitre,setCreationTitre] = useState("");
-  const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY', 'DD-MM-YYYY', 'DD-MM-YY'];
   const[creationDateDebut,setCreationDateDebut] = useState("");
   const[creationDateFin,setCreationDateFin] = useState(null);
   const[creationPoste,setCreationPoste] = useState("");
@@ -36,17 +35,19 @@ function Annonce() {
   const[creationDatePublication,setCreationDatePublication] = useState("");
   const[creationDateCreation, setCreationDateCreation] = useState(new Date()); // si la date a changé, permet de garder en mémoire.
 
-
   // fonction connexion utilisateur
   // Champs obligatoire : ['titre', 'date_de_creation', 'code_postal', 'ville', 'description', 'token' ]
   const handleCreationAnnonce = () => {
+    console.log('01');
     fetch('http://localhost:3000/annonces/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ titre:creationTitre, date_de_debut:creationDateDebut, date_de_fin: creationDateFin, profession: creationPoste, entreprise:creationEntreprise,description:creationDescription, date_de_publication: creationDatePublication, ville:creationVille,code_postal:creationCodePostal, date_de_creation: creationDateCreation, adresse:creationAdresse }),
+      // todo - retraiter les dates : date_de_debut:creationDateDebut, date_de_fin: creationDateFin, date_de_publication: creationDatePublication, 
+      body: JSON.stringify({ titre:creationTitre, ville:creationVille,code_postal:creationCodePostal, adresse:creationAdresse, profession: creationPoste, entreprise:creationEntreprise,description:creationDescription }),
     }).then(response => response.json())
       .then(data => {
-        console.log(handleCreationAnnonce)
+        // console.log(handleCreationAnnonce)
+        console.log('00');
         // Si la connnexion est réussie et que le backend renvoie un token
         if (data.result) {
           // 
