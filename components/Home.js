@@ -6,7 +6,7 @@ import { login } from '@reducers/user';
 import { stockToken } from '../reducers/user';
 
 function Home() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const [modal, setModal] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
