@@ -126,7 +126,6 @@ function Annonce() {
                       
                     <Col span={24}> {test ? <DatePicker defaultValue={dayjs('01/01/2015', dateFormatList[0])} format={dateFormatList} size="large" placeholder="Date Fin" onChange={(date, dateString) => setCreationDateFin(date)} value={creationDateFin} /> : 'Date de fin'}</Col>
 
-
                     <Col span={24}>{ test ? <Input placeholder="Poste" size="large" onChange={(e) => setCreationPoste(e.target.value)} value={creationPoste}/> : 'Profession' }</Col>
 
                     <Col span={24}>{ test ? <Input placeholder="Entreprise" size="large" onChange={(e) => setCreationEntreprise(e.target.value)} value={creationEntreprise} /> : 'Entreprise' }</Col>
