@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Row, Col, Card, Input, Button, Space, DatePicker, Avatar } from 'antd';
+import { Row, Col, Card, Input, Button, Space, DatePicker, Avatar, Empty, message } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faUserGraduate, faSchool } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,6 +12,8 @@ const { RangePicker } = DatePicker;
 
 function ProfilEleve() {
   const user = useSelector((state) => state.user);
+
+  const [messageApi, contextHolder] = message.useMessage();
   const [isToken, setIsToken] = useState(false);
   const [editProfil, setIsEditProfil] = useState(false);
   const [formData, setFormData] = useState({ nom: '', prenom: '', photos: '', date_de_naissance: '', etablissement: '', presentation: '', motivation: '', ville: '', code_postal: '', disponible: null, date_de_debut: null, date_de_fin: null, ma_recherche_de_stage: '', mot_cle: [] });
@@ -53,7 +55,16 @@ function ProfilEleve() {
     }).then(response => response.json())
     .then(data => {
       if (data.result) {
-        console.log(data)
+        messageApi.open({
+          type: 'success',
+          content: data.message
+        });
+        // todo - réaliser les messages de confirmation
+      } else {
+        messageApi.open({
+          type: 'warning',
+          content: data.message
+        });
       }
     });
 
@@ -68,6 +79,8 @@ function ProfilEleve() {
   return (
     <>
       <main>
+        {contextHolder /* messages d'information qui apparais en haut de la page après chaque intervention */ }
+
         <div className='container'>
           <Space direction='vertical' className='w-100' size={12}>
             <Row gutter={[12, 12]}>
@@ -88,7 +101,7 @@ function ProfilEleve() {
               </Col>
 
               <Col span={24}>
-                <Card>
+                <Card className='card-profil'>
                   <Row gutter={[12, 12]}>
                     <Col span={24} md={4} className='d-flex align-items-center justify-content-center'>
                       <Avatar src={<img src={"https://www.photo-identite-bordeaux.fr/wp-content/uploads/2020/10/Enfant-04-2.jpg"} alt="avatar" />} size={100} />
@@ -131,48 +144,64 @@ function ProfilEleve() {
                 </Card>
               </Col>
 
-              <Col span={24} md={12}>
-                <Card>
-                  <h2>Présentation</h2>
+              {
+                (!formData.ma_recherche_de_stage && !formData.presentation && !formData.motivation) &&
+                  <Col span={24} className='py-5'>
+                    <Empty description={false} />
+                  </Col>
+              }
 
-                  {
-                    editProfil ?
-                      // todo - format n'est pas bon les saut de ligne (<p> et <br/>)
-                      <TextArea rows={8} placeholder='Bonjour, je suis très intérressé par le domaine du ...' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, presentation: e.target.value })} value={formDataPreview.presentation} />
-                    :
-                      formData.presentation
-                  }
-                </Card>
-              </Col>
+              {
+                (formData.ma_recherche_de_stage || editProfil) &&
+                  <Col span={24}>
+                    <Card>
+                      <h2>Mon Stage de rêve</h2>
 
-              <Col span={24} md={12}>
-                <Card>
-                  <h2>Motivation</h2>
+                      {
+                        // todo - ajout de mot_cle // liste de mots
+                        editProfil ?
+                          // todo - format n'est pas bon les saut de ligne (<p> et <br/>)
+                          <TextArea rows={8} placeholder='Bonjour, je recherche un stage..' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, ma_recherche_de_stage: e.target.value })} value={formDataPreview.ma_recherche_de_stage} />
+                        :
+                          formData.ma_recherche_de_stage
+                      }
+                    </Card>
+                  </Col>
+              }
 
-                  {
-                    editProfil ?
-                      // todo - format n'est pas bon les saut de ligne (<p> et <br/>)
-                      <TextArea rows={8} placeholder='Je suis particulièrement intérressé par votre ...' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, motivation: e.target.value })} value={formDataPreview.motivation} />
-                    :
-                      formData.motivation
-                  }
-                </Card>
-              </Col>
+              {
+                (formData.presentation || editProfil) &&
+                  <Col span={24} md={(formData.motivation || editProfil) && 12}>
+                    <Card>
+                      <h2>Présentation</h2>
 
-              <Col span={24}>
-                <Card>
-                  <h2>Mon Stage de rêve</h2>
+                      {
+                        editProfil ?
+                          // todo - format n'est pas bon les saut de ligne (<p> et <br/>)
+                          <TextArea rows={8} placeholder='Bonjour, je suis très intérressé par le domaine du ...' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, presentation: e.target.value })} value={formDataPreview.presentation} />
+                        :
+                          formData.presentation
+                      }
+                    </Card>
+                  </Col>
+              }
 
-                  {
-                    // todo - ajout de mot_cle // liste de mots
-                    editProfil ?
-                      // todo - format n'est pas bon les saut de ligne (<p> et <br/>)
-                      <TextArea rows={8} placeholder='Bonjour, je recherche un stage..' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, ma_recherche_de_stage: e.target.value })} value={formDataPreview.ma_recherche_de_stage} />
-                    :
-                      formData.ma_recherche_de_stage
-                  }
-                </Card>
-              </Col>
+              {
+                (formData.motivation || editProfil) &&
+                  <Col span={24} md={(formData.presentation || editProfil) && 12}>
+                    <Card>
+                      <h2>Motivation</h2>
+
+                      {
+                        editProfil ?
+                          // todo - format n'est pas bon les saut de ligne (<p> et <br/>)
+                          <TextArea rows={8} placeholder='Je suis particulièrement intérressé par votre ...' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, motivation: e.target.value })} value={formDataPreview.motivation} />
+                        :
+                          formData.motivation
+                      }
+                    </Card>
+                  </Col>
+              }
             </Row>
           </Space>
         </div>

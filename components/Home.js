@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/router'
 import { Row, Col, Card, Input, Select, Button, Space, Modal } from 'antd';
 import { login } from '@reducers/user';
-import { stockToken } from '../reducers/user';
 
 function Home() {
   const dispatch = useDispatch();
@@ -137,26 +136,26 @@ function Home() {
   };
 
   // todo - faire la partie changement de mot de passe
-    const réinitialisationMDP = () => {
-      const requestData = {
-        email: email,
-        resetToken: resetToken,
-        mot_de_passe: mot_de_passe,
-      }
-
-    fetch('http://localhost:3000/reinisialisermdp/reset-password', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(requestData),
-      }).then(response => response.json())
-        .then(data => {
-             console.log('01', data)
-          if (!data.result) {
-             return;
-          }
-          // setResetMot_de_passe('')
-        });
+  const réinitialisationMDP = () => {
+    const requestData = {
+      email: email,
+      resetToken: resetToken,
+      mot_de_passe: mot_de_passe,
     }
+
+  fetch('http://localhost:3000/reinisialisermdp/reset-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(requestData),
+    }).then(response => response.json())
+      .then(data => {
+            console.log('01', data)
+        if (!data.result) {
+            return;
+        }
+        // setResetMot_de_passe('')
+      });
+  }
 
   return (
     <>
