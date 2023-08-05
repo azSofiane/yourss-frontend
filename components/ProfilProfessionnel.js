@@ -135,7 +135,7 @@ function ProfilProfessionnel() {
               </Col>
 
               {
-                (!formData.presentation && !formData.parcours_professionnel && !formData.conseil_metier) &&
+                (!formData.presentation && !formData.parcours_professionnel && !formData.conseil_metier && !editProfil) &&
                   <Col span={24} className='py-5'>
                     <Empty description={false} />
                   </Col>

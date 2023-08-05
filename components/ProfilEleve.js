@@ -145,7 +145,7 @@ function ProfilEleve() {
               </Col>
 
               {
-                (!formData.ma_recherche_de_stage && !formData.presentation && !formData.motivation) &&
+                (!formData.ma_recherche_de_stage && !formData.presentation && !formData.motivation && !editProfil) &&
                   <Col span={24} className='py-5'>
                     <Empty description={false} />
                   </Col>
