@@ -50,8 +50,29 @@
     width: 100%;
   }
 
+  h2{
+    color: var(--color-default);
+    font-weight: bold;
+    font-size: 22px;
+  }
+
   .fw-bold{
     font-weight: bold;
+  }
+
+  .cursor-pointer{
+    cursor: pointer;
+  }
+
+  .card-profil{
+    &::before{
+      height: 5px;
+      content: '';
+      display: block;
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+      background-image: linear-gradient(to right, #BC8CFF, #FF7B72);
+    }
   }
 
   .container{

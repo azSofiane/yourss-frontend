@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Row, Col, Card, Input, Button, Space, Avatar } from 'antd';
+import { Row, Col, Card, Input, Button, Space, Avatar, Empty, message } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBuilding } from '@fortawesome/free-solid-svg-icons';
 
@@ -9,6 +9,8 @@ const { TextArea } = Input;
 
 function ProfilProfessionnel() {
   const user = useSelector((state) => state.user);
+
+  const [messageApi, contextHolder] = message.useMessage();
   const [isToken, setIsToken] = useState(false);
   const [editProfil, setIsEditProfil] = useState(false);
   const [formData, setFormData] = useState({ nom: '', prenom: '', photos: '', societe: '', parcours_professionnel: '', presentation: '', conseil_metier: '' });
@@ -22,9 +24,9 @@ function ProfilProfessionnel() {
           if(data.result){
             setIsToken(true);
 
-            const { nom, prenom, photos, societe, parcours_professionnel, conseil_metier } = data.data;
+            const { nom, prenom, photos, societe, parcours_professionnel, presentation, conseil_metier } = data.data;
 
-            setFormData({ nom, prenom, photos, societe, parcours_professionnel, conseil_metier });
+            setFormData({ nom, prenom, photos, societe, parcours_professionnel, presentation, conseil_metier });
           };
         });
     };
@@ -50,7 +52,16 @@ function ProfilProfessionnel() {
     }).then(response => response.json())
     .then(data => {
       if (data.result) {
+        messageApi.open({
+          type: 'success',
+          content: data.message
+        });
         // todo - réaliser les messages de confirmation
+      } else {
+        messageApi.open({
+          type: 'warning',
+          content: data.message
+        });
       }
     });
 
@@ -65,6 +76,8 @@ function ProfilProfessionnel() {
   return (
     <>
       <main>
+        {contextHolder /* messages d'information qui apparais en haut de la page après chaque intervention */ }
+
         <div className='container'>
           <Space direction='vertical' className='w-100' size={12}>
             <Row gutter={[12, 12]}>
@@ -84,7 +97,7 @@ function ProfilProfessionnel() {
               </Col>
 
               <Col span={24} >
-                <Card>
+                <Card className='card-profil'>
                   <Row gutter={[12, 12]}>
                     <Col span={24} md={4} className='d-flex align-items-center justify-content-center'>
                       <Avatar src={<img src={"https://actu.meilleurmobile.com/wp-content/uploads/2016/02/Sosh.jpg"} alt="avatar" />} size={100} />
@@ -121,47 +134,63 @@ function ProfilProfessionnel() {
                 </Card>
               </Col>
 
-              <Col span ={24} md={12}>
-                <Card>
-                  <h2>Parcours Personnel</h2>
+              {
+                (!formData.presentation && !formData.parcours_professionnel && !formData.conseil_metier && !editProfil) &&
+                  <Col span={24} className='py-5'>
+                    <Empty description={false} />
+                  </Col>
+              }
 
-                  {
-                    editProfil ?
-                      // todo - format n'est pas bon les saut de ligne (<p> et <br/>)
-                      <TextArea rows={8} placeholder='Ayant commencé mon parcours à l/université en licence ...' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, parcours_professionnel: e.target.value })} value={formDataPreview.parcours_professionnel} />
-                    :
-                      formData.parcours_professionnel
-                  }
-                </Card>
-              </Col>
+              {
+                (formData.presentation || editProfil) &&
+                  <Col span ={24} md={(formData.parcours_professionnel || editProfil) && 12}>
+                    <Card>
+                      <h2>Présentation</h2>
 
-              <Col span ={24} md={12}>
-                <Card>
-                  <h2>Présentation</h2>
+                      {
+                        editProfil ?
+                          // todo - format n'est pas bon les saut de ligne (<p> et <br/>)
+                          <TextArea rows={8} placeholder='Je travaille actuellement chez ..., une entreprise.. avec x collaborateur ...' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, presentation: e.target.value })} value={formDataPreview.presentation} />
+                        :
+                          formData.presentation
+                      }
+                    </Card>
+                  </Col>
+              }
 
-                  {
-                    editProfil ?
-                      // todo - format n'est pas bon les saut de ligne (<p> et <br/>)
-                      <TextArea rows={8} placeholder='Je travaille actuellement chez ..., une entreprise.. avec x collaborateur ...' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, presentation: e.target.value })} value={formDataPreview.presentation} />
-                    :
-                      formData.presentation
-                  }
-                </Card>
-              </Col>
+              {
+                (formData.parcours_professionnel || editProfil) &&
+                  <Col span ={24} md={(formData.presentation || editProfil) && 12}>
+                    <Card>
+                      <h2>Parcours Personnel</h2>
 
-              <Col span ={24}>
-                <Card>
-                  <h2>Conseil métier</h2>
+                      {
+                        editProfil ?
+                          // todo - format n'est pas bon les saut de ligne (<p> et <br/>)
+                          <TextArea rows={8} placeholder='Ayant commencé mon parcours à l/université en licence ...' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, parcours_professionnel: e.target.value })} value={formDataPreview.parcours_professionnel} />
+                        :
+                          formData.parcours_professionnel
+                      }
+                    </Card>
+                  </Col>
+              }
 
-                  {
-                    editProfil ?
-                      // todo - format n'est pas bon les saut de ligne (<p> et <br/>)
-                      <TextArea rows={8} placeholder='Avec l/expérience que j/ai accumulé lors avec toutes ces année, je peux vous donner quelques conseils...' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, conseil_metier: e.target.value })} value={formDataPreview.conseil_metier} />
-                    :
-                      formData.conseil_metier
-                  }
-                </Card>
-              </Col>
+              {
+                (formData.conseil_metier || editProfil) &&
+                  <Col span ={24}>
+                    <Card>
+                      <h2>Conseil métier</h2>
+
+                      {
+                        editProfil ?
+                          // todo - format n'est pas bon les saut de ligne (<p> et <br/>)
+                          <TextArea rows={8} placeholder='Avec l/expérience que j/ai accumulé lors avec toutes ces année, je peux vous donner quelques conseils...' size='large' onChange={(e) => setFormDataPreview({ ...formDataPreview, conseil_metier: e.target.value })} value={formDataPreview.conseil_metier} />
+                        :
+                          formData.conseil_metier
+                      }
+                    </Card>
+                  </Col>
+              }
             </Row>
           </Space>
         </div>

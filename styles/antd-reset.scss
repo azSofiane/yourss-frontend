@@ -158,5 +158,30 @@
         font-size: 18px;
       }
     }
+
+    // badges
+    &-badge{
+      font-size: inherit;
+    }
+
+    // messages
+    &-message{
+      top: 50px;
+
+      &-notice-content{
+        border-radius: 5px;
+      }
+    }
+
+    // les popover
+    &-popover{
+      &-arrow{
+        right: 5px !important;
+      }
+
+      &-inner{
+        border-radius: 5px;
+      }
+    }
   }
 }

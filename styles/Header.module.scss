@@ -1,2 +1,43 @@
-.yoursapp{
+.header{
+  margin-bottom: 30px;
+  padding-block: 5px;
+  background-color: white;
 }
+
+.logo{
+  width: 80px;
+  cursor: pointer;
+}
+
+.input_seach{
+  max-width: 50%;
+}
+
+.popover{
+  cursor: pointer;
+
+  &_body{
+    min-width: 200px;
+    padding-bottom: 12px;
+  }
+
+  &_footer{
+    margin-bottom: -12px;
+    margin-inline: -16px;
+
+    &_btn{
+      width: 100%;
+      font-weight: bold;
+      border-top-right-radius: 0 !important;
+      border-top-left-radius: 0 !important;
+      border: 0 !important;
+
+      &:hover,
+      &:focus{
+        color: white !important;
+        background-color: rgba(var(--color-default-rgb), .8) !important;
+      }
+    }
+  }
+}
+
