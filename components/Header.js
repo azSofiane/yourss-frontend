@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '@reducers/user';
 import { Row, Col, Avatar, Popover, Button, Badge, Input } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightFromBracket, faCommentDots, faStar, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faRightFromBracket, faCommentDots, faStar, faMagnifyingGlass, faBell } from '@fortawesome/free-solid-svg-icons';
 
 function Header() {
 	const dispatch = useDispatch();
@@ -48,6 +48,10 @@ function Header() {
 
           <div className='d-flex align-items-center'>
             <FontAwesomeIcon icon={faStar} className='me-5 cursor-pointer' />
+
+            <Badge dot='true' className='me-5'>
+              <FontAwesomeIcon icon={faBell} className='cursor-pointer' />
+            </Badge>
 
             <Badge dot='true' className='me-5'>
               <FontAwesomeIcon icon={faCommentDots} className='cursor-pointer' />
