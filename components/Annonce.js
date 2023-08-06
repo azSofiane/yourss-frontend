@@ -15,10 +15,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
 
 const { TextArea } = Input;
 
 function Annonce() {
+  const user = useSelector((state) => state.user.value);
   const test = true;
   
   const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY', 'DD-MM-YYYY', 'DD-MM-YY'];
@@ -36,18 +38,17 @@ function Annonce() {
   const [archiver, setArchiver] = useState(false);
   const[creationDateCreation, setCreationDateCreation] = useState(new Date()); // si la date a changé, permet de garder en mémoire.
 
-  // fonction connexion utilisateur
+  // fonction connexion utilisateur = false (professionnel)
   // Champs obligatoire : ['titre', 'date_de_creation', 'code_postal', 'ville', 'description', 'token' ]
   const handleCreationAnnonce = () => {
     fetch('http://localhost:3000/annonces/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      // todo - retraiter les dates : date_de_debut:creationDateDebut, date_de_fin: creationDateFin, date_de_publication: creationDatePublication, 
-      body: JSON.stringify({ archive:archiver, ville:creationVille,code_postal:creationCodePostal, adresse:creationAdresse, profession: creationPoste, entreprise:creationEntreprise,description:creationDescription }),
+      // todo - retraiter le token :    
+      body: JSON.stringify({ date_de_creation: creationDateCreation, date_de_publication: creationDatePublication, date_de_debut: creationDateDebut, date_de_fin: creationDateFin, titre: creationTitre, archive: archiver, ville: creationVille, code_postal: creationCodePostal, adresse: creationAdresse, profession: creationPoste, entreprise: creationEntreprise,description:creationDescription }),
     }).then(response => response.json())
       .then(data => {
-        // console.log(handleCreationAnnonce)
-        console.log('00');
+        console.log("données front post annonce ", data);
         // Si la connnexion est réussie et que le backend renvoie un token
         if (data.result) {
           // 
@@ -78,7 +79,7 @@ function Annonce() {
       });
   }
   
-  
+
 
   return (
     <>
