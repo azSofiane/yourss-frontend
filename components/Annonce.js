@@ -54,6 +54,7 @@ function Annonce() {
           // 
           setCreationTitre('');
           setCreationDateDebut(null);
+          setCreationDatePublication(null);
           setCreationDateFin(null);
           setCreationPoste('');
           setCreationEntreprise('');

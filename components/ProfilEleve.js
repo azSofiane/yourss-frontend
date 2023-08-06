@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Row, Col, Card, Input, Button, Space, DatePicker, Avatar, Empty, message } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faUserGraduate, faSchool } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
@@ -91,6 +92,7 @@ function ProfilEleve() {
                       { editProfil && <Button type='danger' size='large' className='mx-2' onClick={() => cancelProfilClick()}>Annuler</Button> }
 
                       <Button type='default' size='large' onClick={() => {editProfil ? saveProfilClick() : editProfilClick()}}>{ editProfil ? 'Sauvegarder' : 'Editer' }</Button>
+                      <Button type='default' size='large'><Link href="/annoncesList">Voir les annonces</Link></Button>
                     </>
                   :
                     <>

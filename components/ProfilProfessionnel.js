@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Row, Col, Card, Input, Button, Space, Avatar, Empty, message } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBuilding } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 
 const { TextArea } = Input;
 
@@ -88,6 +89,7 @@ function ProfilProfessionnel() {
                       { editProfil && <Button type='danger' size='large' className='mx-2' onClick={() => cancelProfilClick()}>Annuler</Button> }
 
                       <Button type='default' size='large' onClick={() => {editProfil ? saveProfilClick() : editProfilClick()}}>{ editProfil ? 'Sauvegarder' : 'Editer' }</Button>
+                      <Button type='default' size='large'><Link href="/annonce">Poster annonce</Link></Button>
                     </>
                   :
                     <>
