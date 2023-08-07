@@ -132,6 +132,32 @@
       }
     }
 
+    // datepicker
+    &-picker{
+      border-radius: 5px;
+      border-color: #eee;
+      background-color: #eee;
+
+      &:hover,
+      &:focus{
+        border-color: var(--color-default);
+      }
+
+      input{
+        &::placeholder{
+          color: #666;
+        }
+      }
+
+      &-cell{
+        &-inner{
+          &::before{
+            border-color: var(--color-default) !important;
+          }
+        }
+      }
+    }
+
     // les modals
     &-modal{
       &-mask{
