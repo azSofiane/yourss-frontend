@@ -83,18 +83,23 @@ function Annonce({ props }) {
   };
 
   const HandleArchiverAnnonce = () => {
-    fetch("http://localhost:3000/annonces/archive", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ archive: archiver }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("annonce.js  fetch", data);
+    fetch('http://localhost:3000/annonces/archive' + user.token, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ archive:archiver }),
+    }).then(response => response.json())
+      .then(data => {
+        console.log(data);
         // Si la connnexion est réussie et que le backend renvoie un token
         // if (data.result)
       });
-  };
+      if (!archiver) {
+        setArchiver(true)
+      } else {
+        setArchiver(false)
+      }
+  } 
+
 
   return (
     <>
