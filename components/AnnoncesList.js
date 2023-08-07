@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Card, Col, Row, Space } from 'antd';
+import Link from 'next/link';
 
 
 function AnnoncesList() {
@@ -13,6 +14,7 @@ function AnnoncesList() {
             <Col span={24} className='text-end'>
               <span>Mes Annonces</span> 
               <Button size='large' className='mx-2'>Poster un annonce</Button>
+
             </Col>
 
             {/* Modèle de boucles pour les annonces du professionnel*/}

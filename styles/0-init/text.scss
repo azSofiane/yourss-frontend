@@ -4,23 +4,23 @@
 
     .text#{$infix}{
       &-start {
-        text-align: start;
+        text-align: start !important;
       }
 
       &-center {
-        text-align: center;
+        text-align: center !important;
       }
 
       &-end {
-        text-align: end;
+        text-align: end !important;
       }
 
       &-default{
-        color: var(--color-default);
+        color: var(--color-default) !important;
       }
 
       &-secondary{
-        color: var(--color-secondary);
+        color: var(--color-secondary) !important;
       }
     }
   }
