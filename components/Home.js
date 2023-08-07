@@ -13,11 +13,10 @@ function Home() {
   const [modalOpen, setModalOpen] = useState(false);
   const [formData, setFormData] = useState({ nom: '', prenom: '', email: '', mot_de_passe: '', fonction: null });
 
-  const[signInEmail,setSignInEmail] = useState("")
-  const[signInMot_de_passe,setSignInMot_de_passe] = useState("")
-  const[resetMot_de_passe,setResetMot_de_passe] = useState("")
-  const[reinitialisationMot_de_passe,setReinitialisationMot_de_passe] = useState("")
-
+  const[signInEmail, setSignInEmail] = useState("")
+  const[signInMot_de_passe, setSignInMot_de_passe] = useState("")
+  const[resetMot_de_passe, setResetMot_de_passe] = useState("")
+  const[reinitialisationMot_de_passe, setReinitialisationMot_de_passe] = useState("")
 
   // fonction connexion utilisateur
   const handleConnection = () => {
@@ -45,7 +44,6 @@ function Home() {
 
   // modal - creation de compte utilisateur
   const creationCompte = () => {
-
     return <>
       <p>Veuillez renseigner vos informations personnelles</p>
 
@@ -189,9 +187,9 @@ function Home() {
        </section>
       </main>
 
-      <Modal footer={null} centered open={modal} onCancel={() => setModal(false)} wrapClassName={styles.modal} title={modalOpen ? 'Réinitialisation mot de passe' : 'Créer un compte'}>{ modalOpen ? mdpOublie() : creationCompte() }</Modal>
+      <Modal footer={null} centered open={modal} onCancel={() => setModal(false)} title={modalOpen ? 'Réinitialisation mot de passe' : 'Créer un compte'}>{ modalOpen ? mdpOublie() : creationCompte() }</Modal>
     </>
   )
-  }
+}
 
 export default Home;

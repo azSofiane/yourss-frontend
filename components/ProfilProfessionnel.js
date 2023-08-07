@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { Row, Col, Card, Input, Button, Space, Avatar, Empty, message } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBuilding } from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
 
 const { TextArea } = Input;
 
@@ -57,7 +56,6 @@ function ProfilProfessionnel() {
           type: 'success',
           content: data.message
         });
-        // todo - réaliser les messages de confirmation
       } else {
         messageApi.open({
           type: 'warning',
@@ -77,10 +75,8 @@ function ProfilProfessionnel() {
   return (
     <>
       <main>
-        {contextHolder /* messages d'information qui apparais en haut de la page après chaque intervention */ }
-
         <div className='container'>
-          <Space direction='vertical' className='w-100 d-none' size={12}>
+          <Space direction='vertical' className='w-100' size={12}>
             <Row gutter={[12, 12]}>
               <Col span={24} className='text-end'>
                 {
@@ -196,6 +192,8 @@ function ProfilProfessionnel() {
           </Space>
         </div>
       </main>
+
+      {contextHolder /* messages d'information qui apparais en haut de la page après chaque intervention */ }
     </>
   )
 }
