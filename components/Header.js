@@ -48,7 +48,6 @@ function Header() {
           <Input placeholder={user.fonction === 'true' ? 'Rechercher un stage' : 'Rechercher un(e) stagiaire'} suffix={<FontAwesomeIcon icon={faMagnifyingGlass} />} className={styles.input_seach} />
 
           <div className='d-flex align-items-center'>
-          <Link href="/profil"><FontAwesomeIcon icon={faUser} className='me-5 cursor-pointer'/></Link>
             <FontAwesomeIcon icon={faStar} className='me-5 cursor-pointer' />
 
             <Badge dot='true' className='me-5'>
