@@ -25,7 +25,7 @@ export default function AnnoncePage() {
     <>
       {
         formData ?
-          <Annonce props={formData} />
+          <Annonce id={id} props={formData} />
         :
           <p>Chargement...</p>
       }
