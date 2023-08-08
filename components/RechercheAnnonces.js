@@ -17,7 +17,7 @@ function RechercheAnnonces () {
 
   // use Effect pour récupérer toutes les annonces de la base de donnée
   useEffect(() => {
-    fetch('http://localhost:3000/elevesRecherche')
+    fetch('http://localhost:3000/eleves/recherche/annonce')
     .then(response => response.json())
     .then(data => {
       // ajouter les annonces de la bdd dans le tableau annonceData
