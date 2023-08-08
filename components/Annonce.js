@@ -5,6 +5,7 @@ import { Row, Col, Card, Avatar, DatePicker, Input, Button, Space, message } fro
 import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faTag, faCalendar, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 const { TextArea } = Input;
 
@@ -125,7 +126,6 @@ function Annonce({ id, props }) {
 
                     <Col span={24}>
                       <div className="d-flex justify-content-end align-items-center">
-                        <span>Postulé</span>
                         <Button
                           type="default"
                           size="large"
@@ -139,9 +139,18 @@ function Annonce({ id, props }) {
                           size="large"
                           className="mx-2"
                           onClick={() => fonctionachanger()}
-                        >
+                          >
                           Contacter le professionnel
                         </Button>
+                        <Link href='/rechercheAnnonces'>
+                          <Button
+                            type="default"
+                            size="large"
+                            className="mx-2"
+                            >
+                            Retour Annonce
+                          </Button>
+                        </Link>
                       </div>
                     </Col>
                   </>

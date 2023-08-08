@@ -5,15 +5,16 @@ import { useSelector } from 'react-redux';
 import { Row, Col, Card, Input, Button, Space, DatePicker, Avatar, Empty, message } from 'antd';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faUserGraduate, faSchool, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faMagnifyingGlass, faSchool, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 
 
 function RechercheAnnonces () {
-
   const [annoncesData, setAnnoncesData] = useState([]);
-
+  const [recherche, setRecherche] = useState ('');
+  console.log(recherche);
   const dateFormat = 'DD/MM/YYYY';
+
 
   // use Effect pour récupérer toutes les annonces de la base de donnée
   useEffect(() => {
@@ -26,92 +27,17 @@ function RechercheAnnonces () {
   }
   , []);
 
-
-// function DetailsAnnonce2() {
-//   const router = useRouter();
-//   const { id } = router.query;
-
-//   const [annonceDetails, setAnnonceDetails] = useState(null);
-
-//   useEffect(() => {
-//     if (id) {
-//       fetch(`http://localhost:3000/annonces/${id}`)
-//         .then(response => response.json())
-//         .then(data => {
-//           if (data.result) {
-//             setAnnonceDetails(data.annonce);
-//           }
-//         });
-//     }
-//   }, [id]);
-
-//   return (
-//     <div>
-//       <h1>Détails de l'annonce</h1>
-//       {annonceDetails && (
-//         <div>
-//           <h2>{annonceDetails.titre}</h2>
-//           <p>Date de début: {dayjs(annonceDetails.date_de_debut).format('DD/MM/YYYY')}</p>
-//           <p>Date de fin: {dayjs(annonceDetails.date_de_fin).format('DD/MM/YYYY')}</p>
-//           <p>Description: {annonceDetails.description}</p>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-
-
-
-
-  const detailsAnnonce = (id) => {
-    fetch('http://localhost:3000/annonce/' + annoncesData.id)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          const {
-            titre,
-            date_de_creation,
-            date_de_modification,
-            archive,
-            date_de_publication,
-            date_de_debut,
-            date_de_fin,
-            adresse,
-            code_postal,
-            ville,
-            description,
-            profession,
-          } = data.annonce;
-
-          console.log('Détails de l\'annonce:', {
-            titre,
-            date_de_creation,
-            date_de_modification,
-            archive,
-            date_de_publication,
-            date_de_debut,
-            date_de_fin,
-            adresse,
-            code_postal,
-            ville,
-            description,
-            profession,
-          });
-
-          // setFormData({ titre, date_de_creation, date_de_modification, archive, date_de_publication, date_de_debut, date_de_fin, adresse, code_postal, ville, description, profession });
-        };
-      });
-  };
-  
-
  
   // map sur les annonces et créer une card par annonce 
-  const Annonces = annoncesData.map((data, i) => {
+  const Annonces = annoncesData.filter((data) => { 
+    return recherche.toLowerCase() === '' 
+    ? data 
+    : data.titre.toLowerCase().includes(recherche) || data.ville.toLowerCase().includes(recherche) ;
+  }).map((data, i) => {
     
-    const idAn = data._id;
+    const idAnnonce = data._id;
 
-    return <div className="container">
+    return <div className="container" key={i}>
     <Space direction="vertical" className="w-100" size={12}>
       <Col span={24}>
         <Card>
@@ -127,7 +53,7 @@ function RechercheAnnonces () {
                 {data.titre}
               </div>
               <div>
-                Canal+
+                Tesla
               </div>
               <div>
                 {data.ville}
@@ -140,8 +66,14 @@ function RechercheAnnonces () {
                 { data.date_de_fin && <span>au {dayjs(data.date_de_fin).format(dateFormat)}</span> }
               </div>
               <div>
-              <Link href={/annonce/+idAn}>
-          <a>Voir l'annonce</a>
+              <Link href={/annonce/+idAnnonce}>
+                <Button
+                  type="default"
+                  size="large"
+                  className="mx-2"
+                  >
+                  Voir l'annonce
+                </Button>
               </Link>
               </div>
               <div>
@@ -160,7 +92,16 @@ function RechercheAnnonces () {
       <div className="container">
         <Space direction="vertical" className="w-100" size={12}>
           <Col span={24}>
-            <Col span={24}>Liste des annonces :</Col>
+            <Col span={24}>
+              <Input 
+                placeholder={'Rechercher un stage'} 
+                suffix={<FontAwesomeIcon icon={faMagnifyingGlass} />} 
+                // className={styles.input_seach} 
+                onChange={(e) => setRecherche(e.target.value)
+                }
+                />
+              Liste des annonces :
+            </Col>
               {Annonces}
           </Col>
         </Space>
