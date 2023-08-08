@@ -15,7 +15,7 @@ function Annonce({ id, props }) {
 
   const [messageApi, contextHolder] = message.useMessage();
   const [editAnnonce, setEditAnnonce] = useState(false);
-  const [archiveAnnonce, setArchiveAnnonce] = useState(props.archive);
+  const [archiveAnnonce, setArchiveAnnonce] = useState(props?.archive);
   const [formData, setFormData] = useState({...props});
   const [formDataPreview, setFormDataPreview] = useState({...props});
 
