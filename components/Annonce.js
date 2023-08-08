@@ -178,7 +178,6 @@ function Annonce({ props }) {
                             className="w-100"
                             format={dateFormat}
                             onChange={(e) => setFormDataPreview({ ...formDataPreview, date_de_publication: e })}
-                            value={formData.date_de_publication}
                           />
                         </Col>
                         <Col span={12}>
@@ -188,7 +187,6 @@ function Annonce({ props }) {
                             size="large"
                             className="w-100"
                             onChange={(e) => setFormDataPreview({ ...formDataPreview, date_de_debut: e })}
-                            value={formData.date_de_debut}
                           />
                         </Col>
                         <Col span={12}>
@@ -198,7 +196,6 @@ function Annonce({ props }) {
                             size="large"
                             className="w-100"
                             onChange={(e) => setFormDataPreview({ ...formDataPreview, date_de_fin: e })}
-                            value={formData.date_de_fin}
                           />
                         </Col>
                         <Col span={24}>
@@ -249,37 +246,37 @@ function Annonce({ props }) {
                       <>
                         <Col span={24}>
                           <div className="d-flex align-items-center justify-content-between">
-                            <h2 className="mb-0">{ props.titre }</h2>
-                            <small className="text-disabled"><FontAwesomeIcon icon={faCalendar} className="me-2" /> { dayjs(props.date_de_creation).format(dateFormat) }</small>
+                            <h2 className="mb-0">{ formData.titre }</h2>
+                            <small className="text-disabled"><FontAwesomeIcon icon={faCalendar} className="me-2" /> { dayjs(formData.date_de_creation).format(dateFormat) }</small>
                           </div>
                         </Col>
                         {
-                          props.date_de_publication && user.fonction === 'false' &&
+                          formData.date_de_publication && user.fonction === 'false' &&
                             <Col span={24}>
                               <>
-                                Sera publiée le : { dayjs(props.date_de_publication).format(dateFormat) }
+                                Sera publiée le : { dayjs(formData.date_de_publication).format(dateFormat) }
                               </>
                             </Col>
                         }
                         {
-                          props.date_de_debut || props.date_de_fin &&
+                          formData.date_de_debut || formData.date_de_fin &&
                             <Col span={24}>
-                              { props.date_de_debut && dayjs(props.date_de_debut).format(dateFormat) }
-                              { props.date_de_fin && dayjs(props.date_de_fin).format(dateFormat) }
+                              { formData.date_de_debut && dayjs(formData.date_de_debut).format(dateFormat) }
+                              { formData.date_de_fin && dayjs(formData.date_de_fin).format(dateFormat) }
                             </Col>
                         }
                         <Col span={24}>
                           <FontAwesomeIcon icon={faLocationDot} className="me-2" />
-                          { props.adresse && <span className="me-1">{props.adresse},</span> }
-                          <span className="me-1">{props.code_postal}</span> <span>{props.ville}</span>
+                          { formData.adresse && <span className="me-1">{formData.adresse},</span> }
+                          <span className="me-1">{formData.code_postal}</span> <span>{formData.ville}</span>
                         </Col>
                         <Col span={24}>
-                          { props.description }
+                          { formData.description }
                         </Col>
                         {
-                          props.profession &&
+                          formData.profession &&
                             <Col span={24}>
-                              <FontAwesomeIcon icon={faTag} className="me-2 vertical-align-middle" /> {props.profession}
+                              <FontAwesomeIcon icon={faTag} className="me-2 vertical-align-middle" /> {formData.profession}
                             </Col>
                         }
                       </>
