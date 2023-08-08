@@ -1,12 +1,10 @@
 import styles from '@styles/Header.module.scss'
-import { useState } from 'react';
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '@reducers/user';
 import { Row, Col, Avatar, Popover, Button, Badge, Input } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket, faCommentDots, faStar, faMagnifyingGlass, faUser, faBell } from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
 
 function Header() {
 	const dispatch = useDispatch();
@@ -15,6 +13,7 @@ function Header() {
 
   const handleLogout = () => {
 		dispatch(logout());
+    router.push('/');
 	};
 
   const popoverUtilisateur = (

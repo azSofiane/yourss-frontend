@@ -64,6 +64,12 @@
     cursor: pointer;
   }
 
+  .vertical-align{
+    &-middle{
+      vertical-align: middle;
+    }
+  }
+
   .card-profil{
     &::before{
       height: 5px;
