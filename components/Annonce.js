@@ -9,13 +9,16 @@ import { faStar, faTag, faCalendar, faLocationDot } from "@fortawesome/free-soli
 const { TextArea } = Input;
 
 function Annonce({ props }) {
+  console.log(props);
   const user = useSelector((state) => state.user);
 
   const dateFormat = 'DD/MM/YYYY';
 
   const [editAnnonce, setIsEditAnnonce] = useState(false);
-  const [formData, setFormData] = useState({ titre: '', date_de_creation: null, date_de_modification: null, archive: null, date_de_publication: null, date_de_debut: null, date_de_fin: null, adresse: '', code_postal: '', ville: '', description: '', profession: [] });
-  const [formDataPreview, setFormDataPreview] = useState({});
+  const [formData, setFormData] = useState({...props});
+  console.log("formData", formData);
+  const [formDataPreview, setFormDataPreview] = useState({...props});
+  console.log("formDataPreview", formDataPreview);
 
   const editAnnnonceClick = () => {
     setIsEditAnnonce(true);
@@ -71,14 +74,11 @@ function Annonce({ props }) {
       }
   }
 
-
-  console.log({...props})
-
-
-  useEffect(() => {
-    // setFormData({ ...props });
-    // setFormDataPreview({ ...formData });
-  }, [formData]);
+  // useEffect(() => {
+  //   console.log("coucou");
+  //   setFormData({ ...props });
+  //   setFormDataPreview({ ...formData });
+  // }, []);
 
   return (
     <main>

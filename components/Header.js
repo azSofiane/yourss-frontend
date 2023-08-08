@@ -42,7 +42,7 @@ function Header() {
     <header className={styles.header}>
       <div className='container'>
         <div className='d-flex align-items-center justify-content-between'>
-          <img src='img/logo.svg' alt='logo yours' onClick={() => router.push('/')} className={styles.logo} />
+          <img src='/img/logo.svg' alt='logo yours' onClick={() => router.push('/')} className={styles.logo} />
 
           <Input placeholder={user.fonction === 'true' ? 'Rechercher un stage' : 'Rechercher un(e) stagiaire'} suffix={<FontAwesomeIcon icon={faMagnifyingGlass} />} className={styles.input_seach} />
 

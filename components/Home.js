@@ -162,7 +162,7 @@ function Home() {
         <div className='container'>
           <Row gutter={[16, 16]}>
             <Col span={24} md={12} className={styles.wrapCenter}>
-              <img src='img/logo.svg' alt='logo yours' className={styles.logo} />
+              <img src='/img/logo.svg' alt='logo yours' className={styles.logo} />
             </Col>
 
             <Col span={24} md={12} className={styles.wrapCenter}>

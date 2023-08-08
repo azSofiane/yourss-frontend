@@ -6,7 +6,7 @@ export default function AnnoncePage() {
   const router = useRouter();
   const { query: { id } } = router;
 
-  const [formData, setFormData] = useState({ titre: '', date_de_creation: null, date_de_modification: null, archive: null, date_de_publication: null, date_de_debut: null, date_de_fin: null, adresse: '', code_postal: '', ville: '', description: '', profession: [] });
+  const [formData, setFormData] = useState(null);
 
   useEffect(() => {
     // Faire une requête au backend pour obtenir les détails de l'annonce en utilisant le slug
