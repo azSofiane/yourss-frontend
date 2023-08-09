@@ -16,7 +16,7 @@ function RechercheAnnonces () {
   const dateFormat = 'DD/MM/YYYY';
 
 
-  // use Effect pour récupérer toutes les annonces de la base de donnée
+  // use Effect pour récupérer toutes les annonces de la base de donnée au chargement du composant
   useEffect(() => {
     fetch('http://localhost:3000/eleves/recherche/annonce')
     .then(response => response.json())
@@ -96,7 +96,6 @@ function RechercheAnnonces () {
               <Input 
                 placeholder={'Rechercher un stage'} 
                 suffix={<FontAwesomeIcon icon={faMagnifyingGlass} />} 
-                // className={styles.input_seach} 
                 onChange={(e) => setRecherche(e.target.value)
                 }
                 />
