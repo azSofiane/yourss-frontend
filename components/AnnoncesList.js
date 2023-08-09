@@ -31,7 +31,7 @@ function AnnoncesList() {
       professionnel: formData.professionnel
     };
 
-    fetch('http://localhost:3000/annonces/', {
+    fetch('http://localhost:3000/annonces/create/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       // todo - retraiter le token :
@@ -103,55 +103,57 @@ function AnnoncesList() {
 
   return (
     <>
-      <div className='container'>
-        <Space direction='vertical' className='w-100' size={12} >
-          <Row gutter={[12, 12]}>
-            {
-              user.fonction === 'false' &&
-                <Col span={24} className='text-end'>
-                  <Button type='default' size='large' onClick={() => setModal(true)}>Poster un annonce</Button>
-                </Col>
-            }
-
-            {/* Modèle de boucles pour les annonces du professionnel*/}
-            <Col span={24}>
-              <Card>
-                <Row gutter={[12, 12]}>
-                  <Col span={24} md={12}>
-                    <div>
-                      Boulanger
-                    </div>
-                    <div>
-                      Entreprise
-                    </div>
-                    <div>
-                      Localisation : 6 place Pablo Picasso, 93160 Noisy-Le-Grand
-                    </div>
-                    <div>
-                      confection de pain et gateaux
-                    </div>
+      <main>
+        <div className='container'>
+          <Space direction='vertical' className='w-100' size={12} >
+            <Row gutter={[12, 12]}>
+              {
+                user.fonction === 'false' &&
+                  <Col span={24} className='text-end'>
+                    <Button type='default' size='large' onClick={() => setModal(true)}>Poster un annonce</Button>
                   </Col>
+              }
 
-                  <Col span={24} md={12} className='text-center'>
-                    <div>
-                      du 04/09/2023 au 08/09/2023
-                    </div>
-                    <div>
-                      <Button size='large' >Voir l'annonce</Button>
-                    </div>
-                    <div>
-                      <Button size='large'>Modifier</Button>
-                    </div>
-                    <div>
-                      <Button size='large'>Archiver</Button>
-                    </div>
-                  </Col>
-                </Row>
-              </Card>
-            </Col>
-          </Row>
-        </Space>
-      </div>
+              {/* Modèle de boucles pour les annonces du professionnel*/}
+              <Col span={24}>
+                <Card>
+                  <Row gutter={[12, 12]}>
+                    <Col span={24} md={12}>
+                      <div>
+                        Boulanger
+                      </div>
+                      <div>
+                        Entreprise
+                      </div>
+                      <div>
+                        Localisation : 6 place Pablo Picasso, 93160 Noisy-Le-Grand
+                      </div>
+                      <div>
+                        confection de pain et gateaux
+                      </div>
+                    </Col>
+
+                    <Col span={24} md={12} className='text-center'>
+                      <div>
+                        du 04/09/2023 au 08/09/2023
+                      </div>
+                      <div>
+                        <Button size='large' >Voir l'annonce</Button>
+                      </div>
+                      <div>
+                        <Button size='large'>Modifier</Button>
+                      </div>
+                      <div>
+                        <Button size='large'>Archiver</Button>
+                      </div>
+                    </Col>
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+          </Space>
+        </div>
+      </main>
 
       <Modal footer={null} centered open={modal} onCancel={() => setModal(false)} title={'Créer une annonce'}>{ creationAnnonce() }</Modal>
       {contextHolder /* messages d'information qui apparais en haut de la page après chaque intervention */ }
