@@ -35,17 +35,7 @@ function AnnoncesList() {
   , []);
 
 
-  useEffect(() => {
-    const filteredAnnonces = annoncesData.filter((data) => {
-      return (
-        recherche.trim() === '' ||
-        data.titre.toLowerCase().includes(recherche.toLowerCase()) ||
-        data.ville.toLowerCase().includes(recherche.toLowerCase())
-      );
-    });
-  
-    setFilteredAnnonces(filteredAnnonces);
-  }, [annoncesData, recherche]);
+// todo: comment faire pour mettre a jour directement les annonces du professionnel qu'il vient de poster ? 
  
     // map sur les annonces et créer une card par annonce
   
@@ -121,7 +111,6 @@ function AnnoncesList() {
           professionnel: formData.professionnel
         };
 
-    console.log("token front annonce list",user.token);
 
         fetch('http://localhost:3000/annonces/create/' + user.token, {
           method: 'POST',
