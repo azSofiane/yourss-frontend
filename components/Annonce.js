@@ -5,6 +5,7 @@ import { Row, Col, Card, Avatar, DatePicker, Input, Button, Space, Modal, messag
 import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faTag, faCalendar, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 const { TextArea } = Input;
 
