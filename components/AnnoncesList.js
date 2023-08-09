@@ -12,7 +12,7 @@ function AnnoncesList() {
   const [messageApi, contextHolder] = message.useMessage();
   const [modal, setModal] = useState(false);
   // const [formData, setFormData] = useState({ titre: '', date_de_creation: null, date_de_modification: null, archive: null, date_de_publication: null, date_de_debut: null, date_de_fin: null, adresse: '', code_postal: '', ville: '', description: '', profession: [] });
-  const [formData, setFormData] = useState({ titre: '', date_de_creation: new Date(), date_de_publication: null, date_de_debut: null, date_de_fin: null, adresse: '', code_postal: '', ville: '', description: '', profession: [] });
+  const [formData, setFormData] = useState({ titre: '', date_de_creation: new Date(), date_de_publication: null, date_de_debut: null, date_de_fin: null, adresse: '', code_postal: '', ville: '', description: '', professionnel: '', profession: [] });
 
 
   // Champs obligatoire : ['titre', 'date_de_creation', 'code_postal', 'ville', 'description', 'token' ]
@@ -27,7 +27,8 @@ function AnnoncesList() {
       code_postal: formData.code_postal,
       ville: formData.ville,
       description: formData.description,
-      profession: formData.profession
+      profession: formData.profession,
+      professionnel: formData.professionnel
     };
 
     fetch('http://localhost:3000/annonces/', {
@@ -39,7 +40,7 @@ function AnnoncesList() {
       .then(data => {
         console.log("données front post annonce ", data);
         if (data.result) {
-          setFormData({ ...formData, titre: '', date_de_creation: new Date(), date_de_publication: null, date_de_debut: null, date_de_fin: null, adresse: '', code_postal: '', ville: '', description: '', profession: [] });
+          setFormData({ ...formData, titre: '', date_de_creation: new Date(), date_de_publication: null, date_de_debut: null, date_de_fin: null, adresse: '', code_postal: '', ville: '', description: '', profession: [], professionnel:'' });
 
           setModal(false)
 
