@@ -30,7 +30,7 @@ function AnnoncesList() {
       profession: formData.profession
     };
 
-    fetch('http://localhost:3000/annonces/create/', {
+    fetch('http://localhost:3000/annonces/create/' + user.token, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       // todo - retraiter le token :
