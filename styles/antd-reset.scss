@@ -34,6 +34,21 @@
           border-color: var(--color-default);
           background-color: transparent;
         }
+
+        &[disabled]{
+          opacity: .5;
+          color: var(--color-default-text);
+          border-color: var(--color-default);
+          background-color: var(--color-default);
+          transition: background-color .3s;
+
+          &:hover,
+          &:focus{
+            color: var(--color-default-text);
+            border-color: var(--color-default);
+            background-color: var(--color-default);
+          }
+        }
       }
 
       &-secondary{

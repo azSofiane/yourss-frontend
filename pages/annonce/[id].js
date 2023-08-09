@@ -10,13 +10,13 @@ export default function AnnoncePage() {
 
   useEffect(() => {
     // Faire une requête au backend pour obtenir les détails de l'annonce en utilisant le slug
-    fetch('http://localhost:3000/annonces/' + id)
+    fetch('http://localhost:3000/annonces/id/' + id)
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          const { titre, date_de_creation, date_de_modification, archive, date_de_publication, date_de_debut, date_de_fin, adresse, code_postal, ville, description, profession } = data.annonce;
+          const { titre, date_de_creation, date_de_modification, archive, date_de_publication, date_de_debut, date_de_fin, adresse, code_postal, ville, description, profession, eleves_postulants } = data.annonce;
 
-          setFormData({ titre, date_de_creation, date_de_modification, archive, date_de_publication, date_de_debut, date_de_fin, adresse, code_postal, ville, description, profession });
+          setFormData({ titre, date_de_creation, date_de_modification, archive, date_de_publication, date_de_debut, date_de_fin, adresse, code_postal, ville, description, profession, eleves_postulants });
         };
       });
   }, [id]);
