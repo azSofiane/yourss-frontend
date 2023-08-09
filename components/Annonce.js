@@ -26,7 +26,7 @@ function Annonce({ id, props }) {
 
   console.log(messagePostuler)
   useEffect(() => {
-    setVerifiePostuler(props.eleves_postulants.some((eleve) => eleve.eleve === user.token))
+    setVerifiePostuler(props?.eleves_postulants.some((eleve) => eleve.eleve === user.token))
   }, []);
 
   const editAnnnonceClick = () => {

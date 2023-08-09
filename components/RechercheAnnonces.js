@@ -12,7 +12,6 @@ import Link from 'next/link';
 function RechercheAnnonces () {
   const [annoncesData, setAnnoncesData] = useState([]);
   const [recherche, setRecherche] = useState ('');
-  console.log(recherche);
   const dateFormat = 'DD/MM/YYYY';
 
 
