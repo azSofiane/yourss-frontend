@@ -1,9 +1,31 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from 'react';
 import { Avatar, Button, Card, Col, Row, Space } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import {faStar} from '@fortawesome/free-solid-svg-icons';
+import dayjs from 'dayjs';
+import Link from 'next/link';
 
 function Favoris() {
+
+  const user = useSelector((state) => state.user);
+  const dateFormat = 'DD/MM/YYYY';
+
+  const [annoncesData, setAnnoncesData] = useState([]);
+  const [recherche, setRecherche] = useState ('');
+
+  useEffect(() => {
+    fetch('http://localhost:3000/eleves/mesfavoris/' + user.token)
+    .then(response => response.json())
+    .then(data => {
+      // afficher les favoris  de annonces de la bdd dans le tableau annonceData
+      setAnnoncesData(data.annonces)
+    })
+  }
+  , []);
+
 
   return(
     <>

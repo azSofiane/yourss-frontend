@@ -10,15 +10,15 @@ import Link from 'next/link';
 
 
 function RechercheAnnonces () {
+  const user = useSelector((state) => state.user);
   const [annoncesData, setAnnoncesData] = useState([]);
   const [recherche, setRecherche] = useState ('');
-  console.log(recherche);
   const dateFormat = 'DD/MM/YYYY';
 
-
-  // use Effect pour récupérer toutes les annonces de la base de donnée
+   
+  // use Effect pour récupérer toutes les annonces de la base de donnée au chargement du composant
   useEffect(() => {
-    fetch('http://localhost:3000/eleves/recherche/annonce')
+    fetch('http://localhost:3000/eleves/recherche/annonce/'+ user.token)
     .then(response => response.json())
     .then(data => {
       // ajouter les annonces de la bdd dans le tableau annonceData
@@ -32,11 +32,13 @@ function RechercheAnnonces () {
   const Annonces = annoncesData.filter((data) => { 
     return recherche.toLowerCase() === '' 
     ? data 
-    : data.titre.toLowerCase().includes(recherche) || data.ville.toLowerCase().includes(recherche) ;
+    : data.titre.toLowerCase().includes(recherche) 
+    || data.ville.toLowerCase().includes(recherche) 
+    || data.description.toLowerCase().includes(recherche) ;
   }).map((data, i) => {
-    
+   
     const idAnnonce = data._id;
-
+    
     return <div className="container" key={i}>
     <Space direction="vertical" className="w-100" size={12}>
       <Col span={24}>
@@ -66,6 +68,7 @@ function RechercheAnnonces () {
                 { data.date_de_fin && <span>au {dayjs(data.date_de_fin).format(dateFormat)}</span> }
               </div>
               <div>
+              {/* todo - nettoyer le code */}
               <Link href={/annonce/+idAnnonce}>
                 <Button
                   type="default"
@@ -96,7 +99,6 @@ function RechercheAnnonces () {
               <Input 
                 placeholder={'Rechercher un stage'} 
                 suffix={<FontAwesomeIcon icon={faMagnifyingGlass} />} 
-                // className={styles.input_seach} 
                 onChange={(e) => setRecherche(e.target.value)
                 }
                 />

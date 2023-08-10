@@ -20,6 +20,8 @@ import {
   faUserGraduate,
   faSchool,
   faAngleRight,
+  faCakeCandles,
+  faLocationDot
 } from "@fortawesome/free-solid-svg-icons";
 
 const { TextArea } = Input;
@@ -28,13 +30,14 @@ const { TextArea } = Input;
 
 function ProfilEleve({ props }) {
   const user = useSelector((state) => state.user);
+  const dateFormat = "DD/MM/YYYY";
+  const currentDate = dayjs();
 
   const [messageApi, contextHolder] = message.useMessage();
   const [isToken, setIsToken] = useState(false);
   const [editProfil, setIsEditProfil] = useState(false);
   const [formData, setFormData] = useState({ ...props });
   const [formDataPreview, setFormDataPreview] = useState({ ...props });
-  const dateFormat = "DD/MM/YYYY";
 
   useEffect(() => {
     if (user.token) {
@@ -124,23 +127,9 @@ function ProfilEleve({ props }) {
     setFormData({ ...formData });
   };
 
-  const handleRangePickerChange = (dates) => {
-    if (dates && dates.length === 2) {
-      setFormDataPreview({
-        ...formDataPreview,
-        date_de_debut: dates[0] ? dates[0].toDate() : null,
-        date_de_fin: dates[1] ? dates[1].toDate() : null,
-      });
-    }
-  };
-
   return (
     <>
       <main>
-        {
-          contextHolder /* messages d'information qui apparais en haut de la page après chaque intervention */
-        }
-
         <div className="container">
           <Space direction="vertical" className="w-100" size={12}>
             <Row gutter={[12, 12]}>
@@ -181,151 +170,101 @@ function ProfilEleve({ props }) {
               <Col span={24}>
                 <Card className="card-profil">
                   <Row gutter={[12, 12]}>
-                    <Col
-                      span={24}
-                      md={4}
-                      className="d-flex align-items-center justify-content-center"
-                    >
-                      <Avatar
-                        src={
-                          <img
-                            src={
-                              "https://www.photo-identite-bordeaux.fr/wp-content/uploads/2020/10/Enfant-04-2.jpg"
-                            }
-                            alt="avatar"
-                          />
-                        }
-                        size={100}
-                      />
-                    </Col>
-
-                    <Col
-                      span={24}
-                      md={10}
-                      className={!editProfil && "d-flex align-items-center"}
-                    >
-                      <div>
-                        <div className="my-1">
-                          {editProfil ? (
-                            <Input
-                              placeholder="Nom"
-                              size="large"
-                              onChange={(e) =>
-                                setFormDataPreview({
-                                  ...formDataPreview,
-                                  nom: e.target.value,
-                                })
-                              }
-                              value={formDataPreview.nom}
-                            />
-                          ) : (
-                            <>
-                              <FontAwesomeIcon
-                                icon={faUserGraduate}
-                                className="me-1"
-                              />{" "}
-                              <span className="fw-bold">{formData.nom}</span>{" "}
-                              <span>{formData.prenom}</span>
-                            </>
-                          )}
-                        </div>
-
-                        <div className="my-1">
-                          {editProfil && (
-                            <Input
-                              placeholder="Prénom"
-                              size="large"
-                              onChange={(e) =>
-                                setFormDataPreview({
-                                  ...formDataPreview,
-                                  prenom: e.target.value,
-                                })
-                              }
-                              value={formDataPreview.prenom}
-                            />
-                          )}
-                        </div>
-
-                        <div className="my-1">
-                          {editProfil ? (
-                            <Input
-                              placeholder="Etablissement"
-                              size="large"
-                              onChange={(e) =>
-                                setFormDataPreview({
-                                  ...formDataPreview,
-                                  etablissement: e.target.value,
-                                })
-                              }
-                              value={formDataPreview.etablissement}
-                            />
-                          ) : (
-                            <>
-                              {formData.etablissement && (
-                                <>
-                                  <FontAwesomeIcon
-                                    icon={faSchool}
-                                    className="me-1"
-                                  />{" "}
-                                  <span className="fw-bold">
-                                    {formData.etablissement}
-                                  </span>
-                                </>
-                              )}
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </Col>
-
-                    <Col span={24} md={10} className="text-center">
-                      {(formData.date_de_debut ||
-                        formData.date_de_fin ||
-                        editProfil) && (
+                    {
+                      // section édtion du profil
+                      editProfil &&
                         <>
-                          <h2>Date de stage</h2>
+                          <Col span={24} md={4} className="d-flex align-items-center justify-content-center">
+                            <Avatar src={<img src={formDataPreview.photos} alt="avatar" />} size={100} />
+                          </Col>
 
-                          {editProfil ? (
-                            <>
-                              <DatePicker
-                                size="large"
-                                placeholder="Date de début"
-                                format={dateFormat}
-                                onChange={(e) =>
-                                  setFormDataPreview({
-                                    ...formDataPreview,
-                                    date_de_debut: e.toDate(),
-                                  })
-                                }
-                                className="mx-2"
-                              />
+                          <Col span={24} md={10}>
+                            <Row gutter={[12, 12]}>
+                              <Col span={12}>
+                                <Input placeholder="Nom" size="large" onChange={(e) => setFormDataPreview({ ...formDataPreview, nom: e.target.value })} value={formDataPreview.nom} />
+                              </Col>
+                              <Col span={12}>
+                                <Input placeholder="Prénom" size="large" onChange={(e) => setFormDataPreview({ ...formDataPreview, prenom: e.target.value })} value={formDataPreview.prenom} />
+                              </Col>
+                              <Col span={24}>
+                                <DatePicker placeholder="Date de naissance" size="large" format={dateFormat} className="w-100" onChange={(e) => setFormDataPreview({ ...formDataPreview, date_de_naissance: e.toDate() })} />
+                              </Col>
+                              <Col span={24}>
+                                <Input placeholder="Etablissement" size="large" onChange={(e) => setFormDataPreview({ ...formDataPreview, etablissement: e.target.value })} value={formDataPreview.etablissement} />
+                              </Col>
+                              <Col span={12}>
+                                <Input placeholder="Code postal" size="large" onChange={(e) => setFormDataPreview({ ...formDataPreview, code_postal: e.target.value })} value={formDataPreview.code_postal} />
+                              </Col>
+                              <Col span={12}>
+                                <Input placeholder="Ville" size="large" onChange={(e) => setFormDataPreview({ ...formDataPreview, ville: e.target.value })} value={formDataPreview.ville} />
+                              </Col>
+                            </Row>
+                          </Col>
 
-                              <DatePicker
-                                size="large"
-                                placeholder="Date de fin"
-                                format={dateFormat}
-                                onChange={(e) =>
-                                  setFormDataPreview({
-                                    ...formDataPreview,
-                                    date_de_fin: e.toDate(),
-                                  })
-                                }
-                                className="mx-2"
-                              />
-                            </>
-                          ) : (
-                            <>
-                              {dayjs(formData.date_de_debut).format(dateFormat)}{" "}
-                              <FontAwesomeIcon
-                                icon={faAngleRight}
-                                className="mx-3"
-                              />{" "}
-                              {dayjs(formData.date_de_fin).format(dateFormat)}
-                            </>
-                          )}
+                          <Col span={24} md={10} className="text-center">
+                            <h2 className="mb-0 fs-5">Date de stage</h2>
+
+                            <DatePicker placeholder="Date de début" size="large" format={dateFormat} className="mx-2" onChange={(e) => setFormDataPreview({ ...formDataPreview, date_de_debut: e.toDate() })} />
+                            <DatePicker placeholder="Date de fin" size="large" format={dateFormat} className="mx-2" onChange={(e) => setFormDataPreview({ ...formDataPreview, date_de_fin: e.toDate() })} />
+                          </Col>
                         </>
-                      )}
-                    </Col>
+                    }
+
+                    {
+                      // section affichage du profil
+                      !editProfil &&
+                        <>
+                          <Col span={24} md={4} className="d-flex align-items-center justify-content-center">
+                            <Avatar src={<img src={formData.photos} alt="avatar" />} size={100} />
+                          </Col>
+
+                          <Col span={24} md={10} className='d-flex align-items-center'>
+                            <div>
+                              <div className="fw-bold">
+                                <span className="me-1">{formData.nom}</span> <span>{formData.prenom}</span>
+                              </div>
+
+                              {
+                                formData.date_de_naissance &&
+                                  <div className="opacity-50 text-small">
+                                    <FontAwesomeIcon icon={faCakeCandles} className="me-1" /> {dayjs(formData.date_de_naissance).format(dateFormat)} ({currentDate.diff(formData.date_de_naissance, 'year')} ans)
+                                  </div>
+                              }
+
+                              {
+                                formData.etablissement &&
+                                  <div className="opacity-50 text-small">
+                                    <FontAwesomeIcon icon={faSchool} className="me-1" /> {formData.etablissement}
+                                  </div>
+                              }
+
+                              {
+                                (formData.code_postal && formData.ville) &&
+                                  <div className="opacity-50 text-small">
+                                    <FontAwesomeIcon icon={faLocationDot} className="me-1" />
+                                    <span className="me-2">{formData.code_postal}</span>
+                                    <span>{formData.ville}</span>
+                                  </div>
+                              }
+                            </div>
+
+                          </Col>
+
+                          <Col span={24} md={10} className="d-flex flex-column align-items-center justify-content-center">
+                            {
+                              (formData.date_de_debut && formData.date_de_fin) &&
+                                <>
+                                  <h2 className="mb-0 fs-5">Date de stage</h2>
+                                  <div className="text-small">
+                                    {dayjs(formData.date_de_debut).format(dateFormat)}
+                                    <FontAwesomeIcon icon={faAngleRight} className="mx-3" />
+                                    {dayjs(formData.date_de_fin).format(dateFormat)}
+                                  </div>
+                                </>
+                            }
+                          </Col>
+                        </>
+                    }
                   </Row>
                 </Card>
               </Col>
@@ -423,6 +362,8 @@ function ProfilEleve({ props }) {
           </Space>
         </div>
       </main>
+
+      { contextHolder /* messages d'information qui apparais en haut de la page après chaque intervention */ }
     </>
   );
 }
