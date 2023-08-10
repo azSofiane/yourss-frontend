@@ -1,16 +1,12 @@
 .header{
   margin-bottom: 30px;
-  padding-block: 5px;
+  padding-block: 10px;
   background-color: white;
 }
 
 .logo{
-  width: 80px;
+  width: 100px;
   cursor: pointer;
-}
-
-.input_seach{
-  max-width: 50%;
 }
 
 .popover{
@@ -38,6 +34,24 @@
         background-color: rgba(var(--color-default-rgb), .8) !important;
       }
     }
+  }
+}
+
+.link{
+  color: #333 !important;
+
+  &:hover,
+  &:focus{
+    color: var(--color-default) !important;
+  }
+}
+
+.linkLogout{
+  color: var(--color-default) !important;
+
+  &:hover,
+  &:focus{
+    color: var(--color-default-hover) !important;
   }
 }
 
