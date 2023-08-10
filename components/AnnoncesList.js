@@ -16,7 +16,7 @@ function AnnoncesList() {
 
   const [annoncesData, setAnnoncesData] = useState([]);
   const [recherche, setRecherche] = useState ('');
-  const [filteredAnnonces,setFilteredAnnonces]= useState([])
+
 
   const [messageApi, contextHolder] = message.useMessage();
   const [modal, setModal] = useState(false);
@@ -35,8 +35,6 @@ function AnnoncesList() {
   , []);
 
 
-// todo: comment faire pour mettre a jour directement les annonces du professionnel qu'il vient de poster ? 
- 
     // map sur les annonces et créer une card par annonce
   
       const Annonces = annoncesData.filter((data) => { 
