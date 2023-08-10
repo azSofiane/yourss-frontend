@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Row, Col, Card, Input, Button, Space, DatePicker, Avatar, Empty, message } from 'antd';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faMagnifyingGlass, faBriefcase, faCity, faUserDoctor, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faMagnifyingGlass, faLocationDot, faCalendar, faAngleRight, faUser } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 
 
@@ -21,9 +21,9 @@ function RechercherUnEleve () {
     fetch('http://localhost:3000/professionnels/recherche/eleves/'+ user.token)
     .then(response => response.json())
     .then(data => {
-
+      console.log("useeffect ",data);
       // ajouter les elèves de la bdd dans le tableau annonceData
-      setElevesData(data.eleve)
+      if (data.result) setElevesData(data.eleve)
     })
   }
   , []);
@@ -36,78 +36,107 @@ function RechercherUnEleve () {
     : data.nom.toLowerCase().includes(recherche) 
     || data.prenom.toLowerCase().includes(recherche) 
     || data.ville.toLowerCase().includes(recherche) 
+    // || data.mot_cle.toLowerCase().includes(recherche) 
     || data.motivation.toLowerCase().includes(recherche) 
+    // || data.ma_recherche_de_stage.toLowerCase().includes(recherche) 
     || data.etablissement.toLowerCase().includes(recherche);
   }).map((data, i) => {
    
-    const idEleve = data._id;
+    const tokenEleve = data.token;
     
     return <div className="container" key={i}>
-    <Space direction="vertical" className="w-100" size={12}>
-      <Col span={24}>
-        <Card>
-          <Row gutter={[12, 12]}>
-            <Col span={24} md={4}>
-              <div>
-                <Avatar alt='Avatar' size={100} src={data.photo}/>
-              </div>
-            </Col>
+      <Space direction="vertical" className="w-100" size={12}>
+        <Col span={24}>
+          <Card>
+            <Row gutter={[12, 12]}>
+              <Col span={7} md={3} className="d-flex align-items-center">
+                <Avatar src={<img src={data.photos} alt="avatar"/>} size={100}/>
+              </Col>
 
-            <Col span={24} md={10}>
-              <div>
-              <FontAwesomeIcon 
-                icon={faUser} 
-                style={{color: "black"}} 
-                className='me-2'
-              />
-                {data.nom} {data.prenom}
-              </div>
-              <div>
-              <FontAwesomeIcon 
-                icon={faCity}
-                style={{color: "black"}} 
-                className='me-2'
-              />
-               {data.ville}
-              </div>
-              <div>
-                <FontAwesomeIcon 
-                icon={faBriefcase}
-                style={{color: "black"}} 
-                className='me-2'
-                />
-                {data.motivation}
-              </div>
-            </Col>
+              <Col span={17} md={13} className="d-flex align-items-center">
+                <div>
+                  <div className="fw-bold">{data.nom} {data.prenom}</div>
 
-            <Col span={24} md={10}>
-              <div>
-                { data.date_de_debut  && <span className='me-1'>du {dayjs(data.date_de_debut).format(dateFormat)}</span> } 
-                { data.date_de_fin && <span>au {dayjs(data.date_de_fin).format(dateFormat)}</span> }
-              </div>
-              <div>
-                {/* todo  pas possi-ble de consulter le profil de l'élève ? */}
-              {/* todo - nettoyer le code */}
-              <Link href={/profil/+idEleve}>
-                <Button
-                  type="default"
-                  size="large"
-                  className="mx-2"
-                  >
-                  Voir profil
-                </Button>
-              </Link>
-              </div>
-              <div>
-                <FontAwesomeIcon icon={faStar} style={{color: "lightgrey"}} />
-              </div>
-            </Col>
-          </Row>
-        </Card>
-      </Col>
-    </Space>
-  </div>
+                    {
+                      // (data.code_postal && data.ville) &&
+                        <div className="opacity-50 text-small">
+                          <FontAwesomeIcon icon={faLocationDot} className="me-2" />
+                          <span className="me-2">{data.code_postal}</span>
+                          <span>{data.ville}</span>
+                        </div>
+                    }
+                    {
+                      <div className="opacity-50 text-small">
+                        <FontAwesomeIcon icon={faCalendar} className="me-2" />
+                        <span>{dayjs(data.date_de_debut).format(dateFormat)}</span> <FontAwesomeIcon icon={faAngleRight} className="mx-1" /> <span>{dayjs(data.date_de_fin).format(dateFormat)}</span>
+                      </div>
+                    }
+                </div>
+              </Col>
+
+              <Col span={24} md={8} className="d-flex align-items-center justify-content-center justify-content-md-end">
+                  <Link href={/profil/+tokenEleve}>
+                    <Button
+                      type="default"
+                      size="large"
+                      className="mx-2"
+                    >
+                      Voir profil
+                    </Button>
+                </Link>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+      </Space>
+    </div>
   });
+
+
+//   // à mettre en place :
+
+//   <Col span={17} md={13} className="d-flex align-items-center">
+//     <div>
+//       <div className="fw-bold">{data.nom} {data.prenom}</div>
+
+//       {
+//         (data.code_postal && data.ville) &&
+//           <div className="opacity-50 text-small">
+//             <FontAwesomeIcon icon={faLocationDot} className="me-2" />
+//             <span className="me-2">{data.code_postal}</span>
+//             <span>{data.ville}</span>
+//           </div>
+//       }
+//       {
+//           <div className="opacity-50 text-small">
+//             <FontAwesomeIcon icon={faCalendar} className="me-2" />
+//             <span>{dayjs(data.date_de_debut).format(dateFormat)}</span> <FontAwesomeIcon icon={faAngleRight} className="mx-1" /> <span>{dayjs(data.date_de_fin).format(dateFormat)}</span>
+//           </div>
+//       }
+//     </div>
+//   </Col>
+
+//   <Col span={24} md={8} className="d-flex align-items-center justify-content-center justify-content-md-end">
+//     {
+//       eleve[i].statut === 'en cours' ?
+//         <>
+//           <Button type="danger" size="large" className="m-1" onClick={() => postulerChoix('refuser', eleve[i].eleve)}>Refuser</Button>
+//           <Button type="default" size="large" className="m-1" onClick={() => postulerChoix('accepter', eleve[i].eleve)}>Accepter</Button>
+//         </>
+//       :
+//         eleve[i].statut === 'refuser' ?
+//           <span className="mx-3 text-danger fw-bold">Profil refusé</span>
+//         :
+//           <span className="mx-3 text-success fw-bold">Profil accépté</span>
+//     }
+//     <Link href={'/profil/' + eleve[i].eleve}>
+//       <Button type="default" size="large" className="m-1">
+//         <FontAwesomeIcon icon={faEye} />
+//       </Button>
+//     </Link>
+//   </Col>
+// </Row>
+
 
   return(
     <>

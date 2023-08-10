@@ -36,6 +36,8 @@ function AnnoncesList() {
 
     // map sur les annonces et créer une card par annonce
   
+  console.log("anonce data avant filter ",annoncesData);
+
       const Annonces = annoncesData.filter((data) => { 
         return recherche.toLowerCase() === '' 
         ? data 
