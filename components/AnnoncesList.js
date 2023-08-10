@@ -17,7 +17,6 @@ function AnnoncesList() {
   const [annoncesData, setAnnoncesData] = useState([]);
   const [recherche, setRecherche] = useState ('');
 
-
   const [messageApi, contextHolder] = message.useMessage();
   const [modal, setModal] = useState(false);
   // const [formData, setFormData] = useState({ titre: '', date_de_creation: null, date_de_modification: null, archive: null, date_de_publication: null, date_de_debut: null, date_de_fin: null, adresse: '', code_postal: '', ville: '', description: '', profession: [] });
