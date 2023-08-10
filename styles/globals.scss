@@ -40,11 +40,32 @@
 
   a{
     color: var(--color-default);
+
+    &:hover,
+    &:focus{
+      color: var(--color-default-hover);
+    }
   }
 
-  a:hover,
-  a:focus{
-    color: var(--color-default-hover);
+
+  .link{
+    &-default{
+      color: var(--color-default) !important;
+
+      &:hover,
+      &:focus{
+        color: var(--color-default-hover) !important;
+      }
+    }
+
+    &-secondary{
+      color: var(--color-secondary) !important;
+
+      &:hover,
+      &:focus{
+        color: var(--color-secondary-hover) !important;
+      }
+    }
   }
 
   .w-100{

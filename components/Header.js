@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '@reducers/user';
 import { Row, Col, Avatar, Popover, Button, Badge, Input } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightFromBracket, faCommentDots, faStar, faMagnifyingGlass, faUser, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faRightFromBracket, faCommentDots, faStar, faMagnifyingGlass, faUserGraduate, faBell, faUser } from '@fortawesome/free-solid-svg-icons';
+import Link from 'antd/lib/typography/Link';
 
 function Header() {
 	const dispatch = useDispatch();
@@ -42,26 +43,64 @@ function Header() {
     <header className={styles.header}>
       <div className='container'>
         <div className='d-flex align-items-center justify-content-between'>
-          <img src='/img/logo.svg' alt='logo yours' onClick={() => router.push('/')} className={styles.logo} />
+          <Link href={'/'}>
+            <img src='/img/logo.svg' alt='logo yours' className={styles.logo} />
+          </Link>
 
-          <Input placeholder={user.fonction === 'true' ? 'Rechercher un stage' : 'Rechercher un(e) stagiaire'} suffix={<FontAwesomeIcon icon={faMagnifyingGlass} />} className={styles.input_seach} />
+          <div className='d-flex align-items-center text-center'>
+            <div className='mx-5'>
+              <Link href={'/'} className={styles.link}k>
+                <FontAwesomeIcon icon={user.fonction ? faUserGraduate : faUser} className='cursor-pointer' />
+                <div className='mt-1 text-small'>Mon profil</div>
+              </Link>
+            </div>
 
-          <div className='d-flex align-items-center'>
-            <FontAwesomeIcon icon={faStar} className='me-5 cursor-pointer' />
+            <div className='mx-5'>
+              <Link href={'/'} className={styles.link}>
+                <FontAwesomeIcon icon={faMagnifyingGlass} className='cursor-pointer' />
+                <div className='mt-1 text-small'>{ user.fonction ? 'Annonces' : 'Stagiaires'}</div>
+              </Link>
+            </div>
 
-            <Badge dot='true' className='me-5'>
-              <FontAwesomeIcon icon={faBell} className='cursor-pointer' />
-            </Badge>
+            <div className='mx-5'>
+              <Link href={'/'} className={styles.link}>
+                <FontAwesomeIcon icon={faStar} className='cursor-pointer' />
+                <div className='mt-1 text-small'>Mes favoris</div>
+              </Link>
+            </div>
 
-            <Badge dot='true' className='me-5'>
-              <FontAwesomeIcon icon={faCommentDots} className='cursor-pointer' />
-            </Badge>
+            <div className='mx-5'>
+              <Link href={'/'} className={styles.link}>
+                <Badge dot='true'>
+                  <FontAwesomeIcon icon={faBell} className='cursor-pointer' />
+                </Badge>
+                <div className='mt-1 text-small'>Notifications</div>
+              </Link>
+            </div>
 
-            <FontAwesomeIcon icon={faRightFromBracket} onClick={handleLogout} className='text-default cursor-pointer' />
+            <div className='mx-5'>
+              <Link href={'/'} className={styles.link}>
+                <Badge dot='true'>
+                  <FontAwesomeIcon icon={faCommentDots} className='cursor-pointer' />
+                </Badge>
+                <div className='mt-1 text-small'>Messagerie</div>
+              </Link>
+            </div>
+          </div>
 
-            <Popover placement='bottomRight' content={popoverUtilisateur} trigger='click' className={styles.popover + ' d-none'}>
-              <Avatar src={<img src={'https://www.photo-identite-bordeaux.fr/wp-content/uploads/2020/10/Enfant-04-2.jpg'} alt='avatar' />} size='' />
-            </Popover>
+          <div className='d-flex align-items-center text-center'>
+            <div>
+              <Link href={'/'} router className={styles.linkLogout}>
+                <FontAwesomeIcon icon={faRightFromBracket} onClick={handleLogout} className='cursor-pointer' />
+                <div className='mt-1 text-small'>Déconnexion</div>
+              </Link>
+            </div>
+
+            <div className='d-none'>
+              <Popover placement='bottomRight' content={popoverUtilisateur} trigger='click' className={styles.popover}>
+                <Avatar src={<img src={'https://www.photo-identite-bordeaux.fr/wp-content/uploads/2020/10/Enfant-04-2.jpg'} alt='avatar' />} size='' />
+              </Popover>
+            </div>
           </div>
         </div>
       </div>
