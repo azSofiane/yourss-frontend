@@ -5,6 +5,7 @@
 @import '0-init/container.scss';
 @import '0-init/display.scss';
 @import '0-init/flex.scss';
+@import '0-init/opacity.scss';
 @import '0-init/position.scss';
 @import '0-init/spacing.scss';
 @import '0-init/text.scss';
@@ -62,8 +63,38 @@
     font-size: 20px;
   }
 
+  .fw-normal{
+    font-weight: normal;
+  }
+
   .fw-bold{
     font-weight: bold;
+  }
+
+  .fs{
+    &-1{
+      font-size: 2.5rem;
+    }
+
+    &-2{
+      font-size: 2rem;
+    }
+
+    &-3{
+      font-size: 1.75rem;
+    }
+
+    &-4{
+      font-size: 1.5rem;
+    }
+
+    &-5{
+      font-size: 1.25rem;
+    }
+
+    &-6{
+      font-size: 1rem;
+    }
   }
 
   .cursor-pointer{

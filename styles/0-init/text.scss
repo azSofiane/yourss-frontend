@@ -15,12 +15,44 @@
         text-align: end !important;
       }
 
+      &-lowercase{
+        text-transform: lowercase !important;
+      }
+
+      &-uppercase{
+        text-transform: uppercase !important;
+      }
+
+      &-capitalize{
+        text-transform: capitalize !important;
+      }
+
       &-default{
         color: var(--color-default) !important;
       }
 
       &-secondary{
         color: var(--color-secondary) !important;
+      }
+
+      &-danger{
+        color: #f5222d !important;
+      }
+
+      &-success{
+        color: #52c41a !important;
+      }
+
+      &-warning{
+        color: #fa8c16 !important;
+      }
+
+      &-danger{
+        color: #f5222d !important;
+      }
+
+      &-small{
+        font-size: 80% !important;
       }
 
       &-disabled{
