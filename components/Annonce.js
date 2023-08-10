@@ -23,6 +23,7 @@ function Annonce({ id, props }) {
   const [archiveAnnonce, setArchiveAnnonce] = useState(props?.archive);
   const [formData, setFormData] = useState({...props});
   const [formDataPreview, setFormDataPreview] = useState({...props});
+  const [annonceEnFavori, setAnnonceEnFavori] = useState(false);
 
   console.log(messagePostuler)
   useEffect(() => {
@@ -147,6 +148,27 @@ function Annonce({ id, props }) {
       </Space>
     </>
   }
+    // fetch mettre l'annonce en favoris
+    //Ajout d'un message "ajouter avec succès / retirer des favoris"
+    const mettreAnnonceEnFavori = () => {
+  
+      fetch('http://localhost:3000/eleves/favoris/' + id + '/' + user.token, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+      }).then(response => response.json())
+        .then(data => {
+        if (data.result) {
+          setAnnonceEnFavori(!annonceEnFavori);
+          // console.log("Annonce ajoutée aux favoris !");
+          // Mettez à jour votre état ou effectuez d'autres actions en conséquence
+        } else {
+          // setAnnonceEnFavori(false);
+          // console.log("Erreur lors de l'ajout de l'annonce aux favoris.");
+          // Gérez l'erreur ou affichez un message à l'utilisateur
+        }
+      })
+    };
+
 
   return (
     <>
@@ -175,7 +197,9 @@ function Annonce({ id, props }) {
                       }
 
                       <Button type="link" size="large">
-                        <FontAwesomeIcon icon={faStar} style={{ color: "#f2e12c" }} />
+                        <FontAwesomeIcon icon={faStar} style={{ color: annonceEnFavori ? "#f2e12c" : "gray" }} onClick={()=>{mettreAnnonceEnFavori(); 
+                        setAnnonceEnFavori(!annonceEnFavori);
+                        }}/>
                       </Button>
                     </Col>
 

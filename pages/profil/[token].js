@@ -31,7 +31,7 @@ export default function ProfilPage() {
       user.fonction === 'false' ?
 
       (formData ?
-        <ProfilEleve props={formData}/>
+        <ProfilEleve token={token} props={formData}/>
         :
         <p> Chargement ...</p>
       )
