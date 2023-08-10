@@ -175,7 +175,7 @@ function ProfilEleve({ props }) {
                       editProfil &&
                         <>
                           <Col span={24} md={4} className="d-flex align-items-center justify-content-center">
-                            <Avatar src={<img src={"https://www.photo-identite-bordeaux.fr/wp-content/uploads/2020/10/Enfant-04-2.jpg"} alt="avatar" />} size={100} />
+                            <Avatar src={<img src={formDataPreview.photos} alt="avatar" />} size={100} />
                           </Col>
 
                           <Col span={24} md={10}>
@@ -215,7 +215,7 @@ function ProfilEleve({ props }) {
                       !editProfil &&
                         <>
                           <Col span={24} md={4} className="d-flex align-items-center justify-content-center">
-                            <Avatar src={<img src={"https://www.photo-identite-bordeaux.fr/wp-content/uploads/2020/10/Enfant-04-2.jpg"} alt="avatar" />} size={100} />
+                            <Avatar src={<img src={formData.photos} alt="avatar" />} size={100} />
                           </Col>
 
                           <Col span={24} md={10} className='d-flex align-items-center'>

@@ -24,21 +24,24 @@ function AnnoncesList() {
   const [formData, setFormData] = useState({ titre: '', date_de_creation: new Date(), date_de_publication: null, date_de_debut: null, date_de_fin: null, adresse: '', code_postal: '', ville: '', description: '', professionnel: '', profession: [] });
 
     // use Effect pour récupérer toutes les annonces de la base de donnée
-  useEffect(() => {
-    fetch('http://localhost:3000/professionnels/mesannonces/' + user.token)
-    .then(response => response.json())
-    .then(data => {
-      // ajouter les annonces de la bdd dans le tableau annonceData
-      setAnnoncesData(data.annonces)
-    })
-  }
-  , []);
+  // useEffect(() => {
+  //   fetch('http://localhost:3000/professionnels/mesannonces/' + user.token)
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     console.log(" use effect data",data);
+  //     // ajouter les annonces de la bdd dans le tableau annonceData
+  //     setAnnoncesData(data.annonces)
+  //   })
+  // }
+  // , []);
 
 
 // todo: comment faire pour mettre a jour directement les annonces du professionnel qu'il vient de poster ? 
  
     // map sur les annonces et créer une card par annonce
   
+  console.log("anonce data avant filter ",annoncesData);
+
       const Annonces = annoncesData.filter((data) => { 
         return recherche.toLowerCase() === '' 
         ? data 
