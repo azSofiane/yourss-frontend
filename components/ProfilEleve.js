@@ -159,10 +159,10 @@ function ProfilEleve({ props }) {
                   </>
                 ) : (
                   <>
-                    <Button type="default" size="large" className="me-2">
+                    <Button type="default" size="large" className="me-2 d-none">
                       Contacter
                     </Button>
-                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} className="d-none" />
                   </>
                 )}
               </Col>

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Row, Col, Card, Avatar, DatePicker, Input, Button, Space, Modal, message } from "antd";
 import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faTag, faSchool, faCalendar, faLocationDot, faAngleRight, faEye, faCakeCandles } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faTag, faFaceSmile, faCalendar, faLocationDot, faAngleRight, faEye, faCakeCandles } from "@fortawesome/free-solid-svg-icons";
 
 const { TextArea } = Input;
 
@@ -155,26 +155,26 @@ function Annonce({ id, props }) {
       </Space>
     </>
   }
-    // fetch mettre l'annonce en favoris
-    //Ajout d'un message "ajouter avec succès / retirer des favoris"
-    const mettreAnnonceEnFavori = () => {
-  
-      fetch('http://localhost:3000/eleves/favoris/' + id + '/' + user.token, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-      }).then(response => response.json())
-        .then(data => {
-        if (data.result) {
-          setAnnonceEnFavori(!annonceEnFavori);
-          // console.log("Annonce ajoutée aux favoris !");
-          // Mettez à jour votre état ou effectuez d'autres actions en conséquence
-        } else {
-          // setAnnonceEnFavori(false);
-          // console.log("Erreur lors de l'ajout de l'annonce aux favoris.");
-          // Gérez l'erreur ou affichez un message à l'utilisateur
-        }
-      })
-    };
+
+  // fetch mettre l'annonce en favoris
+  //Ajout d'un message "ajouter avec succès / retirer des favoris"
+  const mettreAnnonceEnFavori = () => {
+    fetch('http://localhost:3000/eleves/favoris/' + id + '/' + user.token, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+    }).then(response => response.json())
+      .then(data => {
+      if (data.result) {
+        setAnnonceEnFavori(!annonceEnFavori);
+        // console.log("Annonce ajoutée aux favoris !");
+        // Mettez à jour votre état ou effectuez d'autres actions en conséquence
+      } else {
+        // setAnnonceEnFavori(false);
+        // console.log("Erreur lors de l'ajout de l'annonce aux favoris.");
+        // Gérez l'erreur ou affichez un message à l'utilisateur
+      }
+    })
+  };
 
 
   // fonction accepter ou refuser un eleve qui postule
@@ -307,15 +307,15 @@ function Annonce({ id, props }) {
                           <small className="fw-bold text-default">Tu à déjà postuler</small>
                       }
 
-                      <Button type="link" size="large">
-                        <FontAwesomeIcon icon={faStar} style={{ color: annonceEnFavori ? "#f2e12c" : "gray" }} onClick={()=>{mettreAnnonceEnFavori(); 
+                      <Button type="link" size="large" className="d-none">
+                        <FontAwesomeIcon icon={faStar} style={{ color: annonceEnFavori ? "#f2e12c" : "gray" }} onClick={()=>{mettreAnnonceEnFavori();
                         setAnnonceEnFavori(!annonceEnFavori);
                         }}/>
                       </Button>
                     </Col>
 
                     {/* todo - dynamiser le profil pro */}
-                    <Col span={24}>
+                    <Col span={24} className="d-none">
                       <Card>
                         <Row gutter={[12, 12]}>
                           <Col span={24} md={4} className='d-flex align-items-center justify-content-center'>
@@ -365,6 +365,7 @@ function Annonce({ id, props }) {
                     </Col>
                   </>
               }
+
 
 
               <Col span={24}>
@@ -458,9 +459,11 @@ function Annonce({ id, props }) {
                           <Col span={24}>
                             <div className="d-flex align-items-center justify-content-between">
                               <h2 className="mb-0">{ formData.titre }</h2>
+
                               <small className="opacity-50"><FontAwesomeIcon icon={faCalendar} className="me-2" /> { dayjs(formData.date_de_creation).format(dateFormat) }</small>
                             </div>
                           </Col>
+
                           {
                             formData.date_de_publication && user.fonction === 'false' &&
                               <Col span={24}>
@@ -469,26 +472,59 @@ function Annonce({ id, props }) {
                                 </>
                               </Col>
                           }
-                          {
-                            (formData.date_de_debut || formData.date_de_fin) &&
-                              <Col span={24}>
-                                { formData.date_de_debut && <div>{dayjs(formData.date_de_debut).format(dateFormat)}</div> }
-                                { formData.date_de_fin && <div>{dayjs(formData.date_de_fin).format(dateFormat)}</div> }
-                              </Col>
-                          }
+
                           <Col span={24}>
-                            <FontAwesomeIcon icon={faLocationDot} className="me-2" />
-                            { formData.adresse && <span className="me-1">{formData.adresse},</span> }
-                            <span className="me-1">{formData.code_postal}</span> <span>{formData.ville}</span>
-                          </Col>
-                          <Col span={24} className="mt-5">
-                            <h3>Description</h3>
                             { formData.description }
                           </Col>
+
                           {
                             formData.profession &&
-                              <Col span={24}>
+                              <Col span={24} className="d-none">
                                 <FontAwesomeIcon icon={faTag} className="me-2 vertical-align-middle" /> {formData.profession}
+                              </Col>
+                          }
+
+                          {
+                            (formData.date_de_debut || formData.date_de_fin) &&
+                              <Col span={24} md={12} className="mt-5">
+                                <FontAwesomeIcon icon={faCalendar} className="me-2" />
+                                {
+                                  formData.date_de_debut &&
+                                    dayjs(formData.date_de_debut).format(dateFormat)
+                                }
+                                {
+                                  (formData.date_de_debut && formData.date_de_fin) &&
+                                    <FontAwesomeIcon icon={faAngleRight} className="mx-1" />
+                                }
+                                {
+                                  formData.date_de_fin &&
+                                    dayjs(formData.date_de_fin).format(dateFormat)
+                                }
+                              </Col>
+                          }
+
+                          {
+                            (formData.adresse || (formData.code_postal && formData.ville)) &&
+                              <Col span={24} md={12} className="mt-5 text-md-end">
+                                <FontAwesomeIcon icon={faLocationDot} className="me-2" />
+                                {
+                                  formData.adresse &&
+                                    <span className="me-1">{formData.adresse},</span>
+                                }
+                                {
+                                  (formData.code_postal && formData.ville) &&
+                                    <>
+                                      <span className="me-1">{formData.code_postal}</span>
+                                      <span>{formData.ville}</span>
+                                    </>
+                                }
+                              </Col>
+                          }
+
+                          {
+                            (formData.date_de_publication && user.fonction == 'false') &&
+                              <Col span={24} className="mt-3 text-small text-center">
+                                <FontAwesomeIcon icon={faFaceSmile} className='me-1 vertical-align-middle' /> Sera publiée le { dayjs(formData.date_de_publication).format(dateFormat) }
                               </Col>
                           }
                         </>
@@ -501,7 +537,11 @@ function Annonce({ id, props }) {
         </div>
       </main>
 
-      <Modal footer={null} width={modalOpen ? 520 : 1200} centered open={modal} onCancel={() => setModal(false)} title={modalOpen ? 'Postuler pour : ' + formData.titre : 'Eleves postulants pour : ' + formData.titre}>{ modalOpen ? postulerAnnonce() : elevesPostulantsAnnonce() }</Modal>
+      {
+        user.fonction &&
+          <Modal footer={null} width={modalOpen ? 520 : 1200} centered open={modal} onCancel={() => setModal(false)} title={modalOpen ? 'Postuler pour : ' + formData.titre : 'Eleves postulants pour : ' + formData.titre}>{ user.fonction === 'true' ? postulerAnnonce() : elevesPostulantsAnnonce() }</Modal>
+      }
+
       {contextHolder /* messages d'information qui apparais en haut de la page après chaque intervention */ }
     </>
   );

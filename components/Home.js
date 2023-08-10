@@ -158,33 +158,33 @@ function Home() {
   return (
     <>
       <main>
-       <section className={styles.section_connection}>
-        <div className='container'>
-          <Row gutter={[16, 16]}>
-            <Col span={24} md={12} className={styles.wrapCenter}>
-              <img src='/img/logo.svg' alt='logo yours' className={styles.logo} />
-            </Col>
+        <section className={styles.section_connection}>
+          <div className='container'>
+            <Row gutter={[16, 16]}>
+              <Col span={24} md={12} className={styles.wrapCenter}>
+                <img src='/img/logo.svg' alt='logo yours' className={styles.logo} />
+              </Col>
 
-            <Col span={24} md={12} className={styles.wrapCenter}>
-              <Card className={styles.wrapConnection}>
-                <Space size={24} direction='vertical' className='w-100'>
-                  <Space direction='vertical' className='w-100 text-center'>
-                    <Input placeholder='Email' size='large' onChange={(e) => setSignInEmail(e.target.value)} value={signInEmail}/>
-                    <Input.Password placeholder='Mot de passe' size='large' onChange={(e) => setSignInMot_de_passe(e.target.value)} value={signInMot_de_passe}/>
+              <Col span={24} md={12} className={styles.wrapCenter}>
+                <Card className={styles.wrapConnection}>
+                  <Space size={24} direction='vertical' className='w-100'>
+                    <Space direction='vertical' className='w-100 text-center'>
+                      <Input placeholder='Email' size='large' onChange={(e) => setSignInEmail(e.target.value)} value={signInEmail}/>
+                      <Input.Password placeholder='Mot de passe' size='large' onChange={(e) => setSignInMot_de_passe(e.target.value)} value={signInMot_de_passe}/>
 
-                    <Button type='default' size='large' className='w-100' onClick={() => handleConnection()}>Se connecter</Button>
-                    <Button type='link' onClick={ () => clickModalOpen(true)}>Mot de passe oublié ?</Button>
+                      <Button type='default' size='large' className='w-100' onClick={() => handleConnection()}>Se connecter</Button>
+                      <Button type='link' onClick={ () => clickModalOpen(true)}>Mot de passe oublié ?</Button>
+                    </Space>
+
+                    <Space direction='vertical' className='w-100 text-center'>
+                      <Button type='success' size='large' onClick={() => clickModalOpen(false) }>Créer un compte</Button>
+                    </Space>
                   </Space>
-
-                  <Space direction='vertical' className='w-100 text-center'>
-                    <Button type='success' size='large' onClick={() => clickModalOpen(false) }>Créer un compte</Button>
-                  </Space>
-                </Space>
-              </Card>
-            </Col>
-          </Row>
-        </div>
-       </section>
+                </Card>
+              </Col>
+            </Row>
+          </div>
+        </section>
       </main>
 
       <Modal footer={null} centered open={modal} onCancel={() => setModal(false)} title={modalOpen ? 'Réinitialisation mot de passe' : 'Créer un compte'}>{ modalOpen ? mdpOublie() : creationCompte() }</Modal>

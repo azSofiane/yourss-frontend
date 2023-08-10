@@ -1,5 +1,11 @@
 .yoursapp {
   .ant{
+    // avatar
+    &-avatar-image{
+      color: var(--color-default);
+      background-color: var(--color-default);
+    }
+
     // les cards
     &-card{
       min-height: 100%;

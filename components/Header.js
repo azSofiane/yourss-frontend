@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '@reducers/user';
 import { Row, Col, Avatar, Popover, Button, Badge, Input } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightFromBracket, faCommentDots, faStar, faMagnifyingGlass, faUserGraduate, faBell, faUser } from '@fortawesome/free-solid-svg-icons';
-import Link from 'antd/lib/typography/Link';
+import { faRightFromBracket, faCommentDots, faStar, faMagnifyingGlass, faUserGraduate, faBell, faUser, faNewspaper } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 
 function Header() {
 	const dispatch = useDispatch();
@@ -43,57 +43,89 @@ function Header() {
     <header className={styles.header}>
       <div className='container'>
         <div className='d-flex align-items-center justify-content-between'>
-          <Link href={'/'}>
+          <Link href="/" >
             <img src='/img/logo.svg' alt='logo yours' className={styles.logo} />
           </Link>
 
           <div className='d-flex align-items-center text-center'>
             <div className='mx-5'>
-              <Link href={'/'} className={styles.link}k>
-                <FontAwesomeIcon icon={user.fonction ? faUserGraduate : faUser} className='cursor-pointer' />
-                <div className='mt-1 text-small'>Mon profil</div>
+              <Link href="/">
+                <div className={styles.link}>
+                  <FontAwesomeIcon icon={user.fonction === 'true' ? faUserGraduate : faUser} className='cursor-pointer' />
+                  <div className='mt-1 text-small'>Mon profil</div>
+                </div>
               </Link>
             </div>
 
             <div className='mx-5'>
-              <Link href={'/'} className={styles.link}>
-                <FontAwesomeIcon icon={faMagnifyingGlass} className='cursor-pointer' />
-                <div className='mt-1 text-small'>{ user.fonction ? 'Annonces' : 'Stagiaires'}</div>
+              <Link href="/recherche">
+                <div className={styles.link}>
+                  <FontAwesomeIcon icon={faMagnifyingGlass} className='cursor-pointer' />
+                  <div className='mt-1 text-small'>{user.fonction === 'true' ? 'Stages' : 'Stagiaires'}</div>
+                </div>
+              </Link>
+            </div>
+
+            <div className='mx-5 d-none'>
+              <Link href="/favoris">
+                <div className={styles.link}>
+                  <FontAwesomeIcon icon={faStar} className='cursor-pointer' />
+                  <div className='mt-1 text-small'>Mes favoris</div>
+                </div>
+              </Link>
+            </div>
+
+            {
+              user.fonction === 'false' &&
+                <div className='mx-5'>
+                  <Link href="/mesannonces">
+                    <div className={styles.link}>
+                      <FontAwesomeIcon icon={faNewspaper} className='cursor-pointer' />
+                      <div className='mt-1 text-small'>Mes annonces</div>
+                    </div>
+                  </Link>
+                </div>
+            }
+
+            {
+              user.fonction === 'true' &&
+                <div className='mx-5 d-none'>
+                  <Link href="/mesannonces">
+                    <div className={styles.link}>
+                      <FontAwesomeIcon icon={faNewspaper} className='cursor-pointer' />
+                      <div className='mt-1 text-small'>Mes candidatures</div>
+                    </div>
+                  </Link>
+                </div>
+            }
+
+            <div className='mx-5'>
+              <Link href="/notifications">
+                <div className={styles.link}>
+                  <Badge dot={false}>
+                    <FontAwesomeIcon icon={faBell} className='cursor-pointer' />
+                  </Badge>
+                  <div className='mt-1 text-small'>Notifications</div>
+                </div>
               </Link>
             </div>
 
             <div className='mx-5'>
-              <Link href={'/'} className={styles.link}>
-                <FontAwesomeIcon icon={faStar} className='cursor-pointer' />
-                <div className='mt-1 text-small'>Mes favoris</div>
-              </Link>
-            </div>
-
-            <div className='mx-5'>
-              <Link href={'/'} className={styles.link}>
-                <Badge dot='true'>
-                  <FontAwesomeIcon icon={faBell} className='cursor-pointer' />
-                </Badge>
-                <div className='mt-1 text-small'>Notifications</div>
-              </Link>
-            </div>
-
-            <div className='mx-5'>
-              <Link href={'/'} className={styles.link}>
-                <Badge dot='true'>
-                  <FontAwesomeIcon icon={faCommentDots} className='cursor-pointer' />
-                </Badge>
-                <div className='mt-1 text-small'>Messagerie</div>
+              <Link href="/messagerie">
+                <div className={styles.link}>
+                  <Badge dot={false}>
+                    <FontAwesomeIcon icon={faCommentDots} className='cursor-pointer' />
+                  </Badge>
+                  <div className='mt-1 text-small'>Messagerie</div>
+                </div>
               </Link>
             </div>
           </div>
 
           <div className='d-flex align-items-center text-center'>
-            <div>
-              <Link href={'/'} router className={styles.linkLogout}>
-                <FontAwesomeIcon icon={faRightFromBracket} onClick={handleLogout} className='cursor-pointer' />
-                <div className='mt-1 text-small'>Déconnexion</div>
-              </Link>
+            <div type='link' size='large' onClick={handleLogout} className={styles.linkLogout + ' cursor-pointer'}>
+              <FontAwesomeIcon icon={faRightFromBracket} className='cursor-pointer' />
+              <div className='mt-1 text-small'>Déconnexion</div>
             </div>
 
             <div className='d-none'>
