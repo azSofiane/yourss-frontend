@@ -15,6 +15,7 @@ export default function AnnoncePage() {
     fetch('http://localhost:3000/annonces/id/' + id + '/' + user.token)
       .then((response) => response.json())
       .then((data) => {
+      
         if (data.result) {
           const { titre, date_de_creation, date_de_modification, archive, date_de_publication, date_de_debut, date_de_fin, adresse, code_postal, ville, description, profession, eleves_postulants } = data.annonce;
 
