@@ -29,10 +29,9 @@ function AnnoncesList() {
     .then(response => response.json())
     .then(data => {
       // ajouter les annonces de la bdd dans le tableau annonceData
-      setAnnoncesData(data.annonces)
+      if(data.result) setAnnoncesData(data.annonces)
     })
-  }
-  , []);
+  }, []);
 
 
     // map sur les annonces et créer une card par annonce
@@ -120,9 +119,12 @@ function AnnoncesList() {
             console.log("données front post annonce ", data);
             if (data.result) {
               setFormData({ ...formData, titre: '', date_de_creation: new Date(), date_de_publication: null, date_de_debut: null, date_de_fin: null, adresse: '', code_postal: '', ville: '', description: '', profession: [], professionnel:'' });
+              const nouvellesAnnonces = [...annoncesData, { ...formData }];
+
 
               setModal(false)
-
+              setAnnoncesData(nouvellesAnnonces)
+              
               messageApi.open({
                 type: 'success',
                 content: 'Annonce créée'
@@ -132,7 +134,6 @@ function AnnoncesList() {
       };
    
       // modal - creation d'annonce
-     
 
       const creationAnnonce = () => {
         return <>
