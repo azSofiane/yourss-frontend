@@ -1,33 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
+import Link from "next/link";
 import { Row, Col, Card, Avatar, DatePicker, Input, Button, Space, Modal, message } from "antd";
 import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faTag, faCalendar, faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
+import { faStar, faTag, faSchool, faCalendar, faLocationDot, faAngleRight, faEye, faCakeCandles } from "@fortawesome/free-solid-svg-icons";
 
 const { TextArea } = Input;
 
 function Annonce({ id, props }) {
   const user = useSelector((state) => state.user);
   const dateFormat = 'DD/MM/YYYY';
-
-  // Vérifier si le token de l'utilisateur se trouve parmi les élèves
+  const currentDate = dayjs();
 
   const [messageApi, contextHolder] = message.useMessage();
   const [modal, setModal] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [editAnnonce, setEditAnnonce] = useState(false);
   const [verifiePostuler, setVerifiePostuler] = useState();
+  const [nombrePostulant, setNombrePostulant] = useState();
   const [messagePostuler, setMessagePostuler] = useState('');
   const [archiveAnnonce, setArchiveAnnonce] = useState(props?.archive);
   const [formData, setFormData] = useState({...props});
   const [formDataPreview, setFormDataPreview] = useState({...props});
 
-  console.log(messagePostuler)
   useEffect(() => {
-    setVerifiePostuler(props?.eleves_postulants.some((eleve) => eleve.eleve === user.token))
+    setVerifiePostuler(props.eleves_postulants.some((eleve) => eleve.eleve === user.token))
+    setNombrePostulant(props.eleves_postulants.length)
   }, []);
+
+  // fonction ouvrir modal
+  const clickModalOpen = (boolean) => {
+    setModal(true)
+    setModalOpen(boolean) // (true > modal postuler / eleve) ou (false > modal postulants / pro)
+  }
 
   const editAnnnonceClick = () => {
     setEditAnnonce(true);
@@ -148,6 +155,110 @@ function Annonce({ id, props }) {
     </>
   }
 
+  // fonction accepter ou refuser un eleve qui postule
+  const postulerChoix = (status, tokenEleve) => {
+    fetch('http://localhost:3000/professionnels/postuler/' + id + '/' + user.token, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: tokenEleve, statut: status })
+    }).then(response => response.json())
+      .then(data => {
+        if (data.result) {
+          messageApi.open({
+            type: 'success',
+            content: data.message
+          });
+        } else {
+          messageApi.open({
+            type: 'warning',
+            content: data.message
+          });
+        };
+      });
+  }
+
+  // modal - eleves postulants sur l'annonce
+  const elevesPostulantsAnnonce = () => {
+    const eleve = props.eleves_postulants
+    const models = []
+
+
+    for(let i=0; i < eleve.length; i++){
+      const info = eleve[i].info
+
+      models.push(<>
+        <Col span={24}>
+          <Row gutter={[12, 12]}>
+            <Col span={7} md={3} className="d-flex align-items-center">
+              <Avatar src={<img src={"https://www.photo-identite-bordeaux.fr/wp-content/uploads/2020/10/Enfant-04-2.jpg"} alt="avatar"/>} size={100}/>
+            </Col>
+
+            <Col span={17} md={5} className="d-flex align-items-center">
+              <div>
+                <div className="fw-bold">{info.nom} {info.prenom}</div>
+
+                {
+                  (info.code_postal && info.ville) &&
+                    <div className="opacity-50 text-small">
+                      <FontAwesomeIcon icon={faLocationDot} className="me-2" />
+                      <span className="me-2">{info.code_postal}</span>
+                      <span>{info.ville}</span>
+                    </div>
+                }
+
+                {
+                  (info.date_de_debut && info.date_de_fin) &&
+                    <div className="opacity-50 text-small">
+                      <FontAwesomeIcon icon={faCalendar} className="me-2" />
+                      <span>{dayjs(info.date_de_debut).format(dateFormat)}</span> <FontAwesomeIcon icon={faAngleRight} className="mx-1" /> <span>{dayjs(info.date_de_fin).format(dateFormat)}</span>
+                    </div>
+                }
+              </div>
+            </Col>
+
+            <Col span={24} md={8} className="d-flex flex-column align-items-center justify-content-center">
+              {
+                eleve[i].message &&
+                  <>
+                    <h2 className="mb-0 fs-5">Message</h2>
+                    <div className="opacity-50 text-small text-center">{eleve[i].message}</div>
+                  </>
+              }
+            </Col>
+
+            <Col span={24} md={8} className="d-flex align-items-center justify-content-center justify-content-md-end">
+              {
+                eleve[i].statut === 'en cours' ?
+                  <>
+                    <Button type="danger" size="large" className="m-1" onClick={() => postulerChoix('refuser', eleve[i].eleve)}>Refuser</Button>
+                    <Button type="default" size="large" className="m-1" onClick={() => postulerChoix('accepter', eleve[i].eleve)}>Accepter</Button>
+                  </>
+                :
+                  eleve[i].statut === 'refuser' ?
+                    <span className="mx-3 text-danger fw-bold">Profil refusé</span>
+                  :
+                    <span className="mx-3 text-success fw-bold">Profil accépté</span>
+              }
+              <Link href={'/profil/' + eleve[i].eleve}>
+                <Button type="default" size="large" className="m-1">
+                  <FontAwesomeIcon icon={faEye} />
+                </Button>
+              </Link>
+            </Col>
+          </Row>
+        </Col>
+      </>)
+    }
+
+    return <>
+      <Space direction='vertical' className='w-100' size={12}>
+        <Row gutter={[12, 50]}>
+          {models}
+        </Row>
+      </Space>
+    </>
+  }
+
   return (
     <>
       <main>
@@ -166,7 +277,7 @@ function Annonce({ id, props }) {
                             size="large"
                             className="ms-2"
                             disabled={archiveAnnonce}
-                            onClick={() => setModal(true)}
+                            onClick={() => clickModalOpen(true)}
                           >
                             Postuler
                           </Button>
@@ -179,6 +290,7 @@ function Annonce({ id, props }) {
                       </Button>
                     </Col>
 
+                    {/* todo - dynamiser le profil pro */}
                     <Col span={24}>
                       <Card>
                         <Row gutter={[12, 12]}>
@@ -201,13 +313,17 @@ function Annonce({ id, props }) {
 
               {
                 // 2/4 - partie boutons édition, uniquement pour les professionnelles
-
                 user.fonction === 'false' &&
                   <>
                     <Col span={24}>
                       <div className="d-flex justify-content-end align-items-center">
                         {
                           <>
+                            {
+                              (!editAnnonce && nombrePostulant > 0) &&
+                                <Button type='secondary' size='large' className="me-2" onClick={() => clickModalOpen(false)}>{ editAnnonce ? 'Annonce' : 'Postulants' }</Button>
+                            }
+
                             { !editAnnonce && <Button type="danger" size="large" onClick={() => HandleArchiverAnnonce()}>{ archiveAnnonce ? 'Désarchiver' : 'Archiver' }</Button> }
 
                             {
@@ -318,7 +434,7 @@ function Annonce({ id, props }) {
                           <Col span={24}>
                             <div className="d-flex align-items-center justify-content-between">
                               <h2 className="mb-0">{ formData.titre }</h2>
-                              <small className="text-disabled"><FontAwesomeIcon icon={faCalendar} className="me-2" /> { dayjs(formData.date_de_creation).format(dateFormat) }</small>
+                              <small className="opacity-50"><FontAwesomeIcon icon={faCalendar} className="me-2" /> { dayjs(formData.date_de_creation).format(dateFormat) }</small>
                             </div>
                           </Col>
                           {
@@ -361,7 +477,7 @@ function Annonce({ id, props }) {
         </div>
       </main>
 
-      <Modal footer={null} centered open={modal} onCancel={() => setModal(false)} title={'Postuler pour : ' + formData.titre}>{ postulerAnnonce() }</Modal>
+      <Modal footer={null} width={modalOpen ? 520 : 1200} centered open={modal} onCancel={() => setModal(false)} title={modalOpen ? 'Postuler pour : ' + formData.titre : 'Eleves postulants pour : ' + formData.titre}>{ modalOpen ? postulerAnnonce() : elevesPostulantsAnnonce() }</Modal>
       {contextHolder /* messages d'information qui apparais en haut de la page après chaque intervention */ }
     </>
   );

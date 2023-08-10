@@ -1,0 +1,19 @@
+$opacity: (
+  0: 0,
+  25: .25,
+  50: .5,
+  75: .75,
+  100: 1,
+);
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    @each $name, $value in $opacity {
+      .opacity#{$infix}-#{$name} {
+        opacity: $value !important;
+      }
+    }
+  }
+}
