@@ -32,12 +32,15 @@ function AnnoncesList() {
 
   // map sur les annonces et créer une card par annonce
   const Annonces = annoncesData.filter((data) => {
-    return recherche.toLowerCase() === ''
-    ? data
-    : data.titre.toLowerCase().includes(recherche)
-    || data.ville.toLowerCase().includes(recherche) ;
+    return recherche.toLowerCase() === '' ?
+      data
+    :
+      data.titre.toLowerCase().includes(recherche)
+      || data.ville.toLowerCase().includes(recherche);
   }).map((data, i) => {
     const idAnnonce = data._id;
+
+    console.log('id', idAnnonce)
 
     return (<>
       <Col span={24}>
@@ -138,8 +141,9 @@ function AnnoncesList() {
     }).then(response => response.json())
       .then(data => {
         if (data.result) {
+          const nouvellesAnnonces = [{ ...formData, _id: data.newAnnonce._id }, ...annoncesData];
+
           setFormData({ ...formData, titre: '', date_de_creation: new Date(), date_de_publication: null, date_de_debut: null, date_de_fin: null, adresse: '', code_postal: '', ville: '', description: '', profession: [], professionnel:'' });
-          const nouvellesAnnonces = [{ ...formData }, ...annoncesData];
 
           setModal(false)
           setAnnoncesData(nouvellesAnnonces)
