@@ -18,7 +18,7 @@ import Footer from '@components/Footer'
 import Home from '@components/Home'
 
 const reducers = combineReducers({ user })
-const persistConfig = { key: 'yoursapp', storage, blacklist: ['_persist'] }
+const persistConfig = { key: 'yoursapp', storage,}
 
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
