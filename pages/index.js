@@ -18,7 +18,7 @@ function Index() {
     }
 
     if (user.token) {
-      fetch('https://yourss-backend.vercel.app//' + isFonction + '/' + user.token)
+      fetch('https://yourss-backend.vercel.app/' + isFonction + '/' + user.token)
         .then(response => response.json())
         .then(data => data.result && setIsToken(true));
     }

@@ -133,7 +133,7 @@ function AnnoncesList() {
     };
 
 
-    fetch('https://yourss-backend.vercel.app//annonces/create/' + user.token, {
+    fetch('https://yourss-backend.vercel.app/annonces/create/' + user.token, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       // todo - retraiter le token :

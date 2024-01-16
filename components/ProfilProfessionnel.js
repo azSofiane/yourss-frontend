@@ -18,7 +18,7 @@ function ProfilProfessionnel() {
 
   useEffect(() => {
     if (user.token) {
-      fetch('https://yourss-backend.vercel.app//professionnels/' + user.token)
+      fetch('https://yourss-backend.vercel.app/professionnels/' + user.token)
         .then(response => response.json())
         .then(data => {
           if(data.result){
@@ -45,7 +45,7 @@ function ProfilProfessionnel() {
 
     setFormData({ ...formDataPreview });
 
-		fetch('https://yourss-backend.vercel.app//professionnels/edit/' + user.token, {
+		fetch('https://yourss-backend.vercel.app/professionnels/edit/' + user.token, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...formDataPreview })

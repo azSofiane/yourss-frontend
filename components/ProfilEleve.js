@@ -98,7 +98,7 @@ function ProfilEleve({ props }) {
 
     setFormData({ ...formDataPreview });
 
-    fetch("https://yourss-backend.vercel.app//eleves/edit/" + user.token, {
+    fetch("https://yourss-backend.vercel.app/eleves/edit/" + user.token, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...formDataPreview }),
